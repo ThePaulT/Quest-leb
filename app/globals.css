@@ -1,26 +1,76 @@
 @import "tailwindcss";
 
+/*
+ * Lebanon Quest design tokens. See the Design section of CLAUDE.md.
+ *
+ * Six colours, no more. If a screen seems to need a seventh, it needs less
+ * colour, not another token.
+ */
+@theme {
+  --color-base: #f4f0e8;    /* warm paper, app background */
+  --color-ink: #1c1c1a;     /* all text, never pure black */
+  --color-primary: #0f4c3a; /* deep pine — nav, primary actions, completed */
+  --color-accent: #c4552e;  /* terracotta — ONE element per screen */
+  --color-sand: #d9cbb3;    /* borders, dividers, inactive */
+  --color-sea: #2e5e6e;     /* coastal region, secondary data */
+
+  /* Latin first; the [lang="ar"] rules below swap in the Arabic faces. */
+  --font-display: var(--font-display-latin), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-body-latin), ui-sans-serif, system-ui, sans-serif;
+
+  /* Printed matter has corners. 4px is the ceiling, and it is rarely right. */
+  --radius-sharp: 0px;
+  --radius-card: 2px;
+  --radius-max: 4px;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html {
+  background-color: var(--color-base);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  /* Numerals line up in columns: distances, durations, difficulty counts. */
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/*
+ * Arabic is a first-class script, not a mirrored afterthought. Swapping the
+ * font stack at the language level means any subtree marked lang="ar" gets the
+ * right faces, including a single Arabic title inside an English page.
+ */
+[lang="ar"] {
+  --font-display: var(--font-display-arabic), "Times New Roman", serif;
+  --font-body: var(--font-body-arabic), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-body);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-base);
+  color: var(--color-ink);
+  margin: 0;
+}
+
+/*
+ * Arabic is a connected script: letter-spacing severs the joins between
+ * letters and makes the text read as broken rather than spaced. Never track
+ * Arabic, whatever utility class a component reaches for. The descendant
+ * selector outranks a bare tracking-* utility, so this holds without
+ * !important and without every component remembering it.
+ */
+[lang="ar"] [class*="tracking-"] {
+  letter-spacing: normal;
+}
+
+/*
+ * Amiri's glyphs sit smaller than Instrument Serif at the same px size, and its
+ * ascenders and descenders need more room. Adjust the LEADING only — an earlier
+ * version set font-size here too, which outranked the size utility on the
+ * element and silently shrank every Arabic title to 17px.
+ */
+[lang="ar"] .font-display {
+  line-height: 1.45;
 }

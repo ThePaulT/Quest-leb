@@ -194,3 +194,38 @@ human writes them — confirming the pin belongs in that same pass.
 Correcting one is a one-line edit to `quests.ts` followed by `npm run seed` —
 the seed upserts on slug. `tests/seed-coordinates.test.ts` holds the cheap
 structural guards (inside Lebanon, no duplicate pins, radius in range).
+
+## Design
+
+Reference: 1960s Lebanese tourism posters and the geometry of Lebanese
+cement floor tiles. Printed, flat, editorial. Not a SaaS dashboard,
+not a mobile game.
+
+### Palette — these six only
+base    #F4F0E8  warm paper, app background
+ink     #1C1C1A  all text, never pure black
+primary #0F4C3A  deep pine — nav, primary actions, completed
+accent  #C4552E  terracotta — ONE element per screen
+sand    #D9CBB3  borders, dividers, inactive
+sea     #2E5E6E  coastal region, secondary data
+
+### Type
+Display: Instrument Serif (Latin) / Amiri (Arabic)
+UI+body: IBM Plex Sans (Latin) / IBM Plex Sans Arabic (Arabic)
+All numerals tabular. Self-host via next/font, no CDN calls.
+
+### Banned — do not generate these under any circumstance
+- Gradients of any kind
+- Glassmorphism, backdrop blur, frosted panels
+- Emoji anywhere in the interface
+- Drop shadows on cards (use a 1px sand border instead)
+- Border radius above 4px
+- Purple, indigo, violet, or any colour outside the six above
+- Generic shadcn defaults left unstyled
+
+### Rules
+- Photos are the only loud element. Everything else recedes.
+- Hierarchy via size and spacing, not three font weights.
+- Arabic is not a mirrored afterthought: test every screen in RTL.
+- Completion reward is a rubber stamp pressing onto paper —
+  slight rotation, ink texture. Never confetti or a trophy modal.

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" width="480" height="360" role="img" aria-label="Placeholder tile pattern">
+  <defs>
+    <pattern id="p" width="80" height="80" patternUnits="userSpaceOnUse">
+      <rect width="80" height="80" fill="#0F4C3A"/>
+      <path d="M40 6 L74 40 L40 74 L6 40 Z" fill="#F4F0E8"/>
+      <path d="M40 20 L60 40 L40 60 L20 40 Z" fill="#0F4C3A"/>
+      <circle cx="40" cy="40" r="7" fill="#D9CBB3"/>
+      <path d="M0 0 L12 0 L0 12 Z M80 0 L68 0 L80 12 Z M0 80 L12 80 L0 68 Z M80 80 L68 80 L80 68 Z" fill="#D9CBB3"/>
+    </pattern>
+  </defs>
+  <rect width="480" height="360" fill="url(#p)"/>
+</svg>
