@@ -120,27 +120,61 @@ tests. `jose` verifies the access token locally instead of calling GoTrue,
 saving a network hop per request against the 5GB egress cap.
 
 **R2 uses `aws4fetch`, not `@aws-sdk/client-s3`** — kilobytes instead of
-megabytes, and it runs on the edge runtime.
+megabytes, which keeps the serverless bundle and cold starts small on Vercel
+Hobby. (An earlier note here also claimed it runs on the edge runtime; that is
+not a reason to prefer it, because the Edge Runtime is deprecated in Next 16.)
+
+**Rejected submissions are never uploaded to R2.** The route validates against
+the URL the photo *would* have (`Storage.publicUrl`) and uploads only if the
+verdict is not `rejected`, so a rejected row carries `photo_url = null`. A
+rejected photo is readable by nobody and has no cleanup path, so storing it only
+burns the 10GB free tier — and retries let one user outside a geofence upload
+repeatedly. Flagged rows *do* keep their photo: a human has to review it.
+*Reverse:* upload unconditionally before calling the validator.
+
+**No `runtime` export in route files.** `nodejs` is the default in Next 16 and
+the docs say to remove the export; `edge` is deprecated.
 
 **No public read path on `profiles` yet.** A feed showing display names will
 need a view exposing only `display_name`/`avatar_url`. Deferred until a feed
 exists.
 
-## Seed coordinates are UNVERIFIED
+## Seed coordinates: verified to town level, not to the building
 
-The ten quest coordinates in `supabase/seed/quests.ts` were written from general
-knowledge and have **not** been checked against OpenStreetMap — the sandbox they
-were authored in cannot reach Nominatim, Overpass or Wikipedia.
+The sandbox this was built in cannot reach Nominatim, Overpass or Wikipedia —
+the organization's egress policy allows package registries and GitHub only, and
+a blocked host returns 403 at the proxy. Geocoding the pins directly was not
+possible.
 
-They are safe to hold because nothing can reach the public map: every seeded
-quest is `is_active = false`, and the safety-notes constraint blocks activation
-until a human writes them. Verifying the pin belongs in that same pass.
+They were cross-checked instead against GeoNames settlement positions, which
+ship as npm packages (`all-the-cities`, `cities.json`) and so come from an
+allowed host. Every pin sits 0.1–4.5km from the town it belongs to:
+
+| quest | nearest settlement | distance |
+| --- | --- | --- |
+| harissa-our-lady-of-lebanon | Jounieh | 3.0km |
+| raouche-pigeon-rocks | Ra's Bayrut | 1.6km |
+| jeita-grotto | Aajaltoûn | 4.5km |
+| baalbek-temple-of-bacchus | Baalbek | 1.3km |
+| byblos-citadel | Jbaïl | 0.2km |
+| qadisha-valley | Bcharré | 1.3km (SW, in the gorge) |
+| cedars-of-god | Bcharré | 3.6km (E, uphill) |
+| beiteddine-palace | Beït ed Dîne | 0.1km |
+| sidon-sea-castle | Sidon | 1.3km |
+| tyre-hippodrome | Tyre | 1.3km (east, at Al-Bass) |
+
+This rules out a transposed lat/lng, a wrong hemisphere and a pin in the wrong
+region. It does **not** confirm a pin is on the right building, and the geofence
+radii remain judgement calls.
+
+The identical latitude on `cedars-of-god` and `qadisha-valley` turned out to be
+geography, not an error: Bsharri sits between them at a similar latitude, one
+1.3km SW down in the gorge and the other 3.6km E uphill.
+
+Nothing can reach the public map regardless: every seeded quest is
+`is_active = false`, and the safety-notes constraint blocks activation until a
+human writes them — confirming the pin belongs in that same pass.
 
 Correcting one is a one-line edit to `quests.ts` followed by `npm run seed` —
 the seed upserts on slug. `tests/seed-coordinates.test.ts` holds the cheap
-guards (inside Lebanon, no duplicate pins, radius in range); it cannot tell you
-a pin is on the wrong building.
-
-Known suspicious: `cedars-of-god` and `qadisha-valley` share a latitude to four
-decimals. The ~4.6km gap between them is plausible for Bsharri→the Cedars, but
-identical latitudes look like a memory artifact.
+structural guards (inside Lebanon, no duplicate pins, radius in range).

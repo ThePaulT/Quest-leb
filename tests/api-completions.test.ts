@@ -25,6 +25,9 @@ import {
 const uploads: Array<{ key: string; bytes: number }> = [];
 
 const recordingStorage: Storage = {
+  publicUrl(key) {
+    return `https://photos.example.test/${key}`;
+  },
   async uploadPhoto(buffer, key) {
     uploads.push({ key, bytes: buffer.byteLength });
     return `https://photos.example.test/${key}`;
@@ -218,6 +221,73 @@ describe('POST /api/completions — rejection paths', () => {
 
     const rows = await query('select id from public.completions where user_id = $1', [userId]);
     expect(rows).toHaveLength(1);
+  });
+});
+
+describe('POST /api/completions — R2 is only written when the proof survives', () => {
+  it('uploads nothing when the validator rejects', async () => {
+    const quest = await createQuest({ geofenceRadiusM: 150 });
+    const response = await submit({
+      questId: quest.id,
+      lat: metresNorth(BEIRUT.lat, 500),
+    });
+
+    expect(response.status).toBe(422);
+    // A rejected photo is visible to nobody and has no cleanup path; storing it
+    // would only burn the 10GB free tier.
+    expect(uploads).toHaveLength(0);
+    const body = await response.json();
+    expect(body.completion.photoUrl).toBeNull();
+  });
+
+  it('uploads nothing for a qr_scan quest', async () => {
+    const quest = await createQuest({ proofType: 'qr_scan' });
+    expect((await submit({ questId: quest.id })).status).toBe(422);
+    expect(uploads).toHaveLength(0);
+  });
+
+  it('keeps the photo for a flagged completion, because a human must review it', async () => {
+    const baalbek = await createQuest({ lat: 34.0069, lng: 36.2039, region: 'bekaa' });
+    const tyre = await createQuest({ lat: 33.2725, lng: 35.2075, region: 'south' });
+
+    await submit({ questId: baalbek.id, lat: 34.0069, lng: 36.2039 });
+    const response = await submit({ questId: tyre.id, lat: 33.2725, lng: 35.2075 });
+
+    const body = await response.json();
+    expect(body.completion.validationStatus).toBe('flagged');
+    expect(body.completion.photoUrl).not.toBeNull();
+    expect(uploads).toHaveLength(2);
+  });
+});
+
+describe('impossible travel through the API', () => {
+  it('flags a retry that conflicts with another completion', async () => {
+    // The retry path is an upsert, so this also pins down that the BEFORE
+    // INSERT trigger still applies on the ON CONFLICT DO UPDATE branch —
+    // Postgres reflects BEFORE INSERT trigger effects in `excluded`.
+    const baalbek = await createQuest({ lat: 34.0069, lng: 36.2039, region: 'bekaa' });
+    const tyre = await createQuest({ lat: 33.2725, lng: 35.2075, region: 'south' });
+
+    // First attempt at Tyre fails on GPS accuracy, leaving a rejected row.
+    const first = await submit({
+      questId: tyre.id,
+      lat: 33.2725,
+      lng: 35.2075,
+      accuracyM: MAX_ACCURACY_M + 1,
+    });
+    expect(first.status).toBe(422);
+
+    // Meanwhile the same user completes Baalbek, 130km away.
+    await submit({ questId: baalbek.id, lat: 34.0069, lng: 36.2039 });
+
+    // Retrying Tyre now contradicts the Baalbek completion.
+    const retry = await submit({ questId: tyre.id, lat: 33.2725, lng: 35.2075 });
+    const body = await retry.json();
+    expect(body.completion.validationStatus).toBe('flagged');
+    expect(body.completion.validationReason).toBe('proof.impossible_travel');
+
+    const rows = await query('select id from public.completions where user_id = $1', [userId]);
+    expect(rows).toHaveLength(2);
   });
 });
 

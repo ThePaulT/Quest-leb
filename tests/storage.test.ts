@@ -50,6 +50,26 @@ describe('R2Storage key validation', () => {
     },
   );
 
+  it('publicUrl predicts the upload URL without writing anything', async () => {
+    await withEnv(async () => {
+      const { R2Storage } = await import('@/lib/storage');
+      const storage = new R2Storage();
+      // The route relies on this matching uploadPhoto's return value exactly:
+      // it validates against the predicted URL and only then uploads.
+      expect(storage.publicUrl('completions/u/q-1.webp')).toBe(
+        'https://cdn.example.test/completions/u/q-1.webp',
+      );
+    });
+  });
+
+  it('publicUrl refuses an unsafe key too', async () => {
+    await withEnv(async () => {
+      const { R2Storage } = await import('@/lib/storage');
+      const storage = new R2Storage();
+      expect(() => storage.publicUrl('../escape.webp')).toThrow(StorageError);
+    });
+  });
+
   it('fails loudly when an environment variable is missing', async () => {
     const saved = { ...process.env };
     for (const k of Object.keys(env)) delete process.env[k];

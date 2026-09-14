@@ -16,20 +16,31 @@ import { requireEnv } from '@/lib/env';
 export interface Storage {
   /** Returns the public URL of the stored object. */
   uploadPhoto(buffer: Buffer | Uint8Array, key: string): Promise<string>;
+
+  /**
+   * The URL a key WOULD have, without uploading anything.
+   *
+   * Lets a caller validate a submission against its eventual photo URL and then
+   * skip the upload entirely if the verdict is a rejection — a rejected photo is
+   * visible to nobody and has no cleanup path, so storing it only burns the
+   * 10GB free tier.
+   */
+  publicUrl(key: string): string;
 }
 
 /**
  * Cloudflare R2 over its S3-compatible API.
  *
  * aws4fetch rather than @aws-sdk/client-s3 on purpose: it is a few kilobytes
- * instead of megabytes, it runs on the edge runtime, and R2 egress is free so
- * the SDK's retry and transfer machinery buys us nothing here.
+ * instead of megabytes, which keeps the serverless bundle and cold starts small
+ * on Vercel Hobby, and R2 egress is free so the SDK's retry and transfer
+ * machinery buys us nothing here.
  */
 export class R2Storage implements Storage {
   private readonly client: AwsClient;
   private readonly endpoint: string;
   private readonly bucket: string;
-  private readonly publicUrl: string;
+  private readonly publicUrl_: string;
 
   constructor() {
     this.client = new AwsClient({
@@ -40,7 +51,11 @@ export class R2Storage implements Storage {
     });
     this.endpoint = `https://${requireEnv('R2_ACCOUNT_ID')}.r2.cloudflarestorage.com`;
     this.bucket = requireEnv('R2_BUCKET');
-    this.publicUrl = requireEnv('R2_PUBLIC_URL').replace(/\/+$/, '');
+    this.publicUrl_ = requireEnv('R2_PUBLIC_URL').replace(/\/+$/, '');
+  }
+
+  publicUrl(key: string): string {
+    return `${this.publicUrl_}/${normalizeKey(key)}`;
   }
 
   async uploadPhoto(buffer: Buffer | Uint8Array, key: string): Promise<string> {
@@ -69,7 +84,7 @@ export class R2Storage implements Storage {
       );
     }
 
-    return `${this.publicUrl}/${objectKey}`;
+    return `${this.publicUrl_}/${objectKey}`;
   }
 }
 

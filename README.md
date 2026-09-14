@@ -53,8 +53,12 @@ Integration tests run against a real database, not mocks. Start one, export
 npm test
 ```
 
-117 tests cover the validators, the API route's rejection paths, the
+123 tests cover the validators, the API route's rejection paths, the
 impossible-travel trigger, the badge rules and the RLS policies.
+
+The tests truncate every table between cases, so running them against a
+database wipes anything seeded there. Point `DATABASE_URL` at a throwaway
+database, and re-run `npm run seed` afterwards if you want the quests back.
 
 ## Layout
 

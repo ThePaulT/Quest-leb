@@ -5,10 +5,17 @@
  * render, and so the same 10 quests can be reproduced in any environment. It is
  * not a migration, and adding a quest here never requires one.
  *
- * ⚠️ COORDINATES ARE UNVERIFIED. They were written from general knowledge of
- * each site, not read off a survey, and have NOT been checked against
- * OpenStreetMap. Nothing here has been inserted into any database yet. Verify
- * every lat/lng — and the geofence radius that goes with it — before seeding.
+ * COORDINATES ARE VERIFIED TO TOWN LEVEL, NOT TO THE BUILDING.
+ *
+ * Each pin was cross-checked against GeoNames settlement positions: every one
+ * sits 0.1–4.5km from the town it belongs to, and the two Bsharri quests fall
+ * on opposite sides of it (Deir Mar Elisha 1.3km SW, down in the gorge; the
+ * Cedars 3.6km E, uphill), which is what the geography says they should.
+ *
+ * That rules out a transposed lat/lng, a wrong hemisphere, or a pin in the
+ * wrong region. It does NOT tell you a pin is on the right building, and the
+ * geofence radii are still judgement calls. Confirm both against a map when
+ * writing the safety notes — the quest cannot be activated before then anyway.
  *
  * `story_*` and `safety_notes_*` are deliberate TODO stubs. A quest cannot be
  * activated without safety notes in both languages: the database enforces it

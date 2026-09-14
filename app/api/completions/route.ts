@@ -9,9 +9,6 @@ import { completionPhotoKey, getStorage } from '@/lib/storage';
 import type { Badge } from '@/lib/types';
 import { getValidator } from '@/lib/validators';
 
-// pg and the storage adapter need Node APIs.
-export const runtime = 'nodejs';
-
 /**
  * POST /api/completions — submit proof for a quest.
  *
@@ -86,18 +83,28 @@ export async function POST(request: Request): Promise<NextResponse> {
 
   const submittedAt = new Date();
   const key = completionPhotoKey(userId, questId, submittedAt);
+  const storage = getStorage();
 
-  let photoUrl: string;
-  try {
-    photoUrl = await getStorage().uploadPhoto(bytes, key);
-  } catch {
-    return fail(502, 'storage.upload_failed');
-  }
+  // Validate against the URL the photo WOULD have, then upload only if the
+  // submission survives. A rejected photo is readable by nobody and has no
+  // cleanup path, so uploading one just consumes the 10GB free tier — and
+  // retries mean a user outside the geofence could upload repeatedly.
+  const prospectiveUrl = storage.publicUrl(key);
 
   const result = await getValidator(quest.proofType).validate(
-    { questId, userId, lat, lng, accuracyM, photoUrl },
+    { questId, userId, lat, lng, accuracyM, photoUrl: prospectiveUrl },
     quest,
   );
+
+  // Flagged rows keep their photo: a human has to look at it to review.
+  let photoUrl: string | null = null;
+  if (result.status !== 'rejected') {
+    try {
+      photoUrl = await storage.uploadPhoto(bytes, key);
+    } catch {
+      return fail(502, 'storage.upload_failed');
+    }
+  }
 
   const { completion, badges } = await transaction(async (client) => {
     const { rows } = await client.query(
