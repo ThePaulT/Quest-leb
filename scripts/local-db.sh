@@ -47,5 +47,8 @@ for f in "$ROOT"/supabase/migrations/*.sql; do
   psql -U postgres -d "$DB" -v ON_ERROR_STOP=1 -q -f "$f"
 done
 
+URL="postgresql://postgres@localhost/$DB?host=$PGHOST&port=$PGPORT"
 echo
 echo "ready: psql -h $PGHOST -p $PGPORT -U postgres -d $DB"
+echo
+echo "export DATABASE_URL='$URL'"

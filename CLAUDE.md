@@ -81,3 +81,66 @@ Schema notes worth knowing before you touch it:
   `validation_status = 'verified'` — only the service role can, after running
   the validator for the quest's `proof_type`.
 - `events` has RLS on and zero policies, by design. It is service-role only.
+
+## Decisions taken, and how to reverse them
+
+Prototype decisions made without a second opinion. Each is reversible; this
+records what to change if you disagree.
+
+**Clients cannot write `validation_status = 'verified'.** The insert policy is
+`user_id = auth.uid() AND validation_status <> 'verified'`. A policy that only
+checked ownership would let anyone POST a verified row and skip validation
+entirely. *Reverse:* drop the second clause in the RLS migration.
+
+**The public feed shows verified rows only**, not every `is_public` row — a
+rejected proof photo should not be visible to strangers. *Reverse:* drop
+`validation_status = 'verified'` from `completions_select_public_verified`.
+
+**A rejected attempt can be retried.** `unique (user_id, quest_id)` stays, and
+the route upserts: a non-verified row is replaced in place, a verified one
+returns 409. *Reverse:* make the route 409 on any existing row.
+
+**Flagged completions count toward badges**, verified ones obviously do, and
+rejected ones do not. Withholding a badge because a heuristic was unsure is the
+wrong default; review can revoke. *Reverse:* `COUNTS_TOWARD_BADGES` in
+`lib/badges.ts`, one constant.
+
+**`flag_impossible_travel` only downgrades `verified` to `flagged`.** Flagging a
+rejected row would promote it, since flagged counts toward badges. It also flags
+the incoming row, never the earlier one.
+
+**Photos: 400KB server ceiling, 200KB client target.** The client compresses to
+200KB; the route accepts up to 400KB so encoder variance across devices does not
+reject a legitimately compressed photo. Both constants are at the top of
+`app/api/completions/route.ts`.
+
+**Postgres access is `pg`, not `supabase-js`.** Server code talks to the
+database directly (`lib/db.ts`), which is what makes the tests real integration
+tests. `jose` verifies the access token locally instead of calling GoTrue,
+saving a network hop per request against the 5GB egress cap.
+
+**R2 uses `aws4fetch`, not `@aws-sdk/client-s3`** — kilobytes instead of
+megabytes, and it runs on the edge runtime.
+
+**No public read path on `profiles` yet.** A feed showing display names will
+need a view exposing only `display_name`/`avatar_url`. Deferred until a feed
+exists.
+
+## Seed coordinates are UNVERIFIED
+
+The ten quest coordinates in `supabase/seed/quests.ts` were written from general
+knowledge and have **not** been checked against OpenStreetMap — the sandbox they
+were authored in cannot reach Nominatim, Overpass or Wikipedia.
+
+They are safe to hold because nothing can reach the public map: every seeded
+quest is `is_active = false`, and the safety-notes constraint blocks activation
+until a human writes them. Verifying the pin belongs in that same pass.
+
+Correcting one is a one-line edit to `quests.ts` followed by `npm run seed` —
+the seed upserts on slug. `tests/seed-coordinates.test.ts` holds the cheap
+guards (inside Lebanon, no duplicate pins, radius in range); it cannot tell you
+a pin is on the wrong building.
+
+Known suspicious: `cedars-of-god` and `qadisha-valley` share a latitude to four
+decimals. The ~4.6km gap between them is plausible for Bsharri→the Cedars, but
+identical latitudes look like a memory artifact.
