@@ -51,6 +51,13 @@ describe('quest seeds', () => {
     }
   });
 
+  it('ships no quest whose validator is a stub', () => {
+    // qr_scan rejects everything as not_implemented, so a quest using it can
+    // never be completed. The module stays registered for a future partner
+    // integration; the seed just must not reference it.
+    expect(questSeeds.filter((q) => q.proofType === 'qr_scan')).toEqual([]);
+  });
+
   it('does not place two quests on the same pin', () => {
     const pins = questSeeds.map((q) => `${q.lat},${q.lng}`);
     expect(new Set(pins).size).toBe(pins.length);

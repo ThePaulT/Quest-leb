@@ -24,6 +24,8 @@ import {
  */
 const uploads: Array<{ key: string; bytes: number }> = [];
 
+const deletions: string[] = [];
+
 const recordingStorage: Storage = {
   publicUrl(key) {
     return `https://photos.example.test/${key}`;
@@ -31,6 +33,9 @@ const recordingStorage: Storage = {
   async uploadPhoto(buffer, key) {
     uploads.push({ key, bytes: buffer.byteLength });
     return `https://photos.example.test/${key}`;
+  },
+  async deletePhoto(key) {
+    deletions.push(key);
   },
 };
 
@@ -40,6 +45,7 @@ let token: string;
 beforeEach(async () => {
   await resetDatabase();
   uploads.length = 0;
+  deletions.length = 0;
   setStorage(recordingStorage);
   userId = await createUser();
   token = await signToken(userId);

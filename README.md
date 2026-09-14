@@ -44,6 +44,18 @@ npm run seed
 All ten seed as `is_active = false`; see "Seed coordinates" in `CLAUDE.md` for
 why, and what has to happen before any of them go live.
 
+### Cloudflare R2
+
+```bash
+npm run verify:r2
+```
+
+Uploads a real WebP to the configured bucket, fetches it back over the public
+URL, asserts the bytes match, and deletes it. Needs `R2_ACCOUNT_ID`,
+`R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET` and `R2_PUBLIC_URL` —
+and the bucket must allow public reads, or the fetch step fails even though the
+upload succeeded.
+
 ### Tests
 
 Integration tests run against a real database, not mocks. Start one, export
@@ -53,7 +65,7 @@ Integration tests run against a real database, not mocks. Start one, export
 npm test
 ```
 
-123 tests cover the validators, the API route's rejection paths, the
+133 tests cover the validators, the API route's rejection paths, the
 impossible-travel trigger, the badge rules and the RLS policies.
 
 The tests truncate every table between cases, so running them against a

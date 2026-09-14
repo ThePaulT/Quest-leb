@@ -64,11 +64,19 @@ Everything must run on free tiers for now.
 
 `npm run db:start` + `npm run db:reset` is the real path (needs Docker).
 
+`npm run verify:r2` proves the R2 path end to end against a real bucket: it
+uploads a real WebP through `lib/storage.ts`, fetches it back over the public
+URL, asserts byte equality, then deletes it. It needs the five `R2_*` variables
+and cannot run in a sandbox whose egress policy blocks Cloudflare.
+
 `npm run db:local` is a Docker-less fallback used in agent/CI sandboxes: it
 applies `supabase/migrations/` to a throwaway PostGIS cluster on top of the
 shim in `supabase/dev/`, which fakes the api roles, `auth.users` and
 `auth.uid()`. It gives you the database only — no PostgREST, no GoTrue. The
-shim must never be applied to a real project.
+shim must never be applied to a real project. On a fresh container it installs
+PostgreSQL 16 + PostGIS first, and `--reset` recovers from an orphaned
+postmaster (one whose data directory was deleted under it, which otherwise
+holds the socket lock and breaks every later start).
 
 Schema notes worth knowing before you touch it:
 
@@ -134,6 +142,14 @@ repeatedly. Flagged rows *do* keep their photo: a human has to review it.
 
 **No `runtime` export in route files.** `nodejs` is the default in Next 16 and
 the docs say to remove the export; `edge` is deprecated.
+
+**No quest uses `qr_scan`.** The validator is a stub and there is no partner QR
+at any site, so a qr_scan quest is uncompletable — Byblos Citadel and Beiteddine
+Palace were moved to `photo_at_location`. The module stays registered in
+`lib/validators/` for a future partner integration, and
+`tests/seed-coordinates.test.ts` fails if a seed quest ever references a stubbed
+proof type again. *Reverse:* set `proofType` back once real QR codes exist on
+site and the validator is implemented.
 
 **No public read path on `profiles` yet.** A feed showing display names will
 need a view exposing only `display_name`/`avatar_url`. Deferred until a feed

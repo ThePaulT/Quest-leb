@@ -26,6 +26,13 @@ export interface Storage {
    * 10GB free tier.
    */
   publicUrl(key: string): string;
+
+  /**
+   * Removes an object. Used by scripts/verify-r2.ts to clean up after itself,
+   * and by whatever eventually prunes photos for deleted accounts. The route
+   * does not call it: a submission's photo is immutable once written.
+   */
+  deletePhoto(key: string): Promise<void>;
 }
 
 /**
@@ -85,6 +92,22 @@ export class R2Storage implements Storage {
     }
 
     return `${this.publicUrl_}/${objectKey}`;
+  }
+
+  async deletePhoto(key: string): Promise<void> {
+    const objectKey = normalizeKey(key);
+    const response = await this.client.fetch(
+      `${this.endpoint}/${this.bucket}/${objectKey}`,
+      { method: 'DELETE' },
+    );
+
+    // S3 delete is idempotent: a missing key returns 204, not 404.
+    if (!response.ok && response.status !== 404) {
+      const detail = await response.text().catch(() => '');
+      throw new StorageError(
+        `R2 delete failed for ${objectKey}: ${response.status} ${response.statusText} ${detail}`.trim(),
+      );
+    }
   }
 }
 

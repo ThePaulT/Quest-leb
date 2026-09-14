@@ -17,6 +17,11 @@
  * geofence radii are still judgement calls. Confirm both against a map when
  * writing the safety notes — the quest cannot be activated before then anyway.
  *
+ * No quest uses `qr_scan`. The validator is a stub and there is no partner QR
+ * at any site, so a qr_scan quest would be uncompletable. The module stays in
+ * lib/validators/ for a future partner integration — this is a content
+ * decision, not a code one.
+ *
  * `story_*` and `safety_notes_*` are deliberate TODO stubs. A quest cannot be
  * activated without safety notes in both languages: the database enforces it
  * (quests_safety_notes_required_when_active), so every row here seeds with
@@ -199,9 +204,11 @@ export const questSeeds: QuestSeed[] = [
     lat: 34.1208,
     lng: 35.6455,
     geofenceRadiusM: 250,
-    proofType: 'qr_scan',
-    proofHintEn: 'Scan the quest code on the interpretive panel at the citadel entrance.',
-    proofHintAr: 'امسح رمز المهمة الموجود على اللوحة التعريفية عند مدخل القلعة.',
+    // qr_scan until there is a partner QR on site and a working validator;
+    // both are missing, which made this quest uncompletable.
+    proofType: 'photo_at_location',
+    proofHintEn: 'Photograph the harbour from the top of the Crusader keep.',
+    proofHintAr: 'صوّر المرفأ من أعلى برج القلعة الصليبية.',
     safetyNotesEn: null,
     safetyNotesAr: null,
     estDurationMin: 90,
@@ -271,9 +278,10 @@ export const questSeeds: QuestSeed[] = [
     lat: 33.6944,
     lng: 35.5814,
     geofenceRadiusM: 300,
-    proofType: 'qr_scan',
-    proofHintEn: 'Scan the quest code in the main courtyard, beside the ticket desk.',
-    proofHintAr: 'امسح رمز المهمة في الباحة الرئيسية بجانب شبّاك التذاكر.',
+    // Was qr_scan; see the note on byblos-citadel.
+    proofType: 'photo_at_location',
+    proofHintEn: 'Photograph the main courtyard from the upper arcade.',
+    proofHintAr: 'صوّر الباحة الرئيسية من الرواق العلوي.',
     safetyNotesEn: null,
     safetyNotesAr: null,
     estDurationMin: 90,
