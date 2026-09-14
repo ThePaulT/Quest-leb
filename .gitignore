@@ -32,6 +32,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# Spelled out as well as covered by .env* above: this repository is public, and
+# .env.local is the file that holds real keys.
+.env.local
 !.env.example
 
 # vercel
