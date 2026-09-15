@@ -1,0 +1,111 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-ink: #0b0b0c;
+  --color-panel: #121213;
+  --color-panel-2: #191919;
+  --color-bone: #ede9e3;
+  --color-ash: #6e6a64;
+  --color-sand: #2a2826;
+  --color-blood: #c4352b;
+  --color-curse: #4e8f92;
+
+  --font-display: ui-serif, 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial,
+    sans-serif;
+
+  --radius-none: 0px;
+}
+
+/* Flat and printed: no gradients, no glassmorphism, no drop shadows on cards,
+   corners at 2px or less. Hierarchy comes from size, rule weight and spacing. */
+html,
+body {
+  background: var(--color-ink);
+  color: var(--color-bone);
+}
+
+body {
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+
+.display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+.eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+
+.panel {
+  background: var(--color-panel);
+  border: 1px solid var(--color-sand);
+}
+
+.btn {
+  border: 1px solid var(--color-ash);
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-bone);
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 120ms linear, border-color 120ms linear;
+}
+.btn:hover:not(:disabled) {
+  background: var(--color-panel-2);
+  border-color: var(--color-bone);
+}
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.btn-primary {
+  border-color: var(--color-blood);
+  color: var(--color-bone);
+  background: var(--color-blood);
+}
+.btn-primary:hover:not(:disabled) {
+  background: #a92c24;
+  border-color: #a92c24;
+}
+
+.rule {
+  border-top: 1px solid var(--color-sand);
+}
+
+.stamp {
+  display: inline-block;
+  border: 2px solid currentColor;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  font-weight: 700;
+}
+
+@keyframes press {
+  from {
+    opacity: 0;
+    transform: rotate(-9deg) scale(1.35);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(-3deg) scale(1);
+  }
+}
+.stamp-press {
+  animation: press 260ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stamp-press {
+    animation: none;
+  }
+}

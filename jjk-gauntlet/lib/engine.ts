@@ -540,6 +540,9 @@ export interface RoundResult {
   margin: number;
   won: boolean;
   upset: boolean;
+  /** Which side pulled the upset: 'team' flipped a loss into a win, 'enemy'
+   *  flipped the team's win into a loss. */
+  upsetSide: 'team' | 'enemy' | null;
   upsetReason: string | null;
   /** Everyone knocked out this round. Usually zero or one, but Yuki's Black
    *  Hole and Kashimo's Amber can add a second. */
@@ -602,7 +605,7 @@ export function resolveRound(
 
   const notes: string[] = [];
   if (copiedA) notes.push(`Yuta copies ${copiedA.replace(/_/g, ' ')}.`);
-  if (copiedB) notes.push(`The enemy Yuta copies ${copiedA ?? ''}.`);
+  if (copiedB) notes.push(`The opposing Copy user takes ${copiedB.replace(/_/g, ' ')}.`);
 
   const score = () => {
     const a = scoreSide(
@@ -727,40 +730,10 @@ export function resolveRound(
   if (a.total < b.total) clutchPass(team, modsA, modsB, () => a, () => b, teamLastStand);
   else if (opts.enemyPersists) clutchPass(enemy, modsB, modsA, () => b, () => a, enemyLastStand);
 
-  // --- Upsets ---------------------------------------------------------------
   let won = a.total > b.total;
   let upset = false;
+  let upsetSide: 'team' | 'enemy' | null = null;
   let upsetReason: string | null = null;
-
-  // Each fired counter is its own chance to end the fight early, plus the flat
-  // underdog roll once the gap reaches underdog_gap.
-  const rollUpsets = (breakdown: Breakdown, deficit: number): string | null => {
-    for (const c of breakdown.firedCounters) {
-      if (c.upset_chance > 0 && rng.chance(c.upset_chance)) return `UPSET — ${c.explanation}`;
-    }
-    if (deficit >= RULES.underdog_gap && rng.chance(RULES.underdog_upset_chance)) {
-      return 'UPSET — the underdog finds the one opening that exists.';
-    }
-    return null;
-  };
-
-  if (!won) {
-    const reason = rollUpsets(a, b.total - a.total);
-    if (reason) {
-      won = true;
-      upset = true;
-      upsetReason = reason;
-      notes.push(reason);
-    }
-  } else {
-    const reason = rollUpsets(b, a.total - b.total);
-    if (reason) {
-      won = false;
-      upset = true;
-      upsetReason = reason;
-      notes.push(reason);
-    }
-  }
 
   // --- Mahoraga gambit ------------------------------------------------------
   let forcedFaller: Fighter | null = null;
@@ -783,6 +756,41 @@ export function resolveRound(
         won = a.total > b.total;
       }
       forcedFaller = prospective;
+    }
+  }
+
+  // --- Upsets ---------------------------------------------------------------
+  // Rolled last, so an upset is always the thing that decided the round: a side
+  // flagged with the upset won it, full stop.
+  // Each fired counter is its own chance to end the fight early, plus the flat
+  // underdog roll once the gap reaches underdog_gap.
+  const rollUpsets = (breakdown: Breakdown, deficit: number): string | null => {
+    for (const c of breakdown.firedCounters) {
+      if (c.upset_chance > 0 && rng.chance(c.upset_chance)) return `UPSET — ${c.explanation}`;
+    }
+    if (deficit >= RULES.underdog_gap && rng.chance(RULES.underdog_upset_chance)) {
+      return 'UPSET — the underdog finds the one opening that exists.';
+    }
+    return null;
+  };
+
+  if (!won) {
+    const reason = rollUpsets(a, b.total - a.total);
+    if (reason) {
+      won = true;
+      upset = true;
+      upsetSide = 'team';
+      upsetReason = reason;
+      notes.push(reason);
+    }
+  } else {
+    const reason = rollUpsets(b, a.total - b.total);
+    if (reason) {
+      won = false;
+      upset = true;
+      upsetSide = 'enemy';
+      upsetReason = reason;
+      notes.push(reason);
     }
   }
 
@@ -868,6 +876,7 @@ export function resolveRound(
     margin: round2(margin),
     won,
     upset,
+    upsetSide,
     upsetReason,
     fellIds,
     enemyFellIds,
@@ -982,7 +991,8 @@ export function runGauntlet(
     survivorIds: survivors,
     xp,
     hype: isHype(teamIds, rounds, mode),
-    upsets: rounds.filter((r) => r.upset).length,
+    // Only upsets the team pulled off — the card's UPSET stamp is a boast.
+    upsets: rounds.filter((r) => r.upset && r.upsetSide === 'team').length,
   };
 }
 
@@ -1108,6 +1118,7 @@ function flip(r: RoundResult): RoundResult {
     teamIds: r.enemyIds,
     enemyIds: r.teamIds,
     won: !r.won,
+    upsetSide: r.upsetSide === 'team' ? 'enemy' : r.upsetSide === 'enemy' ? 'team' : null,
     fellIds: r.enemyFellIds,
     enemyFellIds: r.fellIds,
     margin: -r.margin,

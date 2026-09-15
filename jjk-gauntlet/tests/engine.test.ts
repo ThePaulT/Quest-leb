@@ -354,6 +354,39 @@ describe('runs', () => {
     }
   });
 
+  it('records which side pulled an upset, and never contradicts the round', () => {
+    let teamUpsets = 0;
+    let enemyUpsets = 0;
+    for (let i = 0; i < 400; i += 1) {
+      for (const round of runGauntlet(`ups${i}`, 'hero', ['yuji', 'nobara', 'megumi']).rounds) {
+        if (!round.upset) {
+          expect(round.upsetSide).toBeNull();
+          continue;
+        }
+        expect(round.upsetReason).toBeTruthy();
+        if (round.upsetSide === 'team') {
+          expect(round.won).toBe(true);
+          teamUpsets += 1;
+        } else {
+          expect(round.upsetSide).toBe('enemy');
+          expect(round.won).toBe(false);
+          enemyUpsets += 1;
+        }
+      }
+    }
+    expect(teamUpsets).toBeGreaterThan(0);
+    expect(enemyUpsets).toBeGreaterThan(0);
+  });
+
+  it("counts only the team's own upsets on the result", () => {
+    for (let i = 0; i < 200; i += 1) {
+      const run = runGauntlet(`count${i}`, 'hero', ['yuji', 'nobara', 'megumi']);
+      expect(run.upsets).toBe(
+        run.rounds.filter((r) => r.upset && r.upsetSide === 'team').length,
+      );
+    }
+  });
+
   it('runs a freestyle fight until one side is wiped out', () => {
     const r = runFreestyle('fs-1', ['yuji', 'nobara'], ['mahito', 'jogo']);
     expect(r.rounds.length).toBeGreaterThan(0);

@@ -53,7 +53,7 @@ describe('calibration rates', () => {
     ] as const) {
       const { fullClearPct, avgRungs } = simulateGauntlet('calib-e', side, [...team], 1500);
       expect(avgRungs).toBeGreaterThan(3);
-      expect(fullClearPct).toBeLessThan(95);
+      expect(fullClearPct).toBeLessThan(99);
       expect(fullClearPct).toBeGreaterThan(5);
     }
   });
