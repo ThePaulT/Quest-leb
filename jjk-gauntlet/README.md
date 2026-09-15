@@ -21,7 +21,8 @@ Neither environment variable is required to play. See `.env.example`.
 
 | Variable | Without it |
 | --- | --- |
-| `ANTHROPIC_API_KEY` | Rounds are narrated from a local template instead of by Claude. |
+| `GEMINI_API_KEY` | Rounds are narrated from a local template instead of by a model. Google AI Studio's free tier covers this. |
+| `ANTHROPIC_API_KEY` | Nothing, unless `GEMINI_API_KEY` is empty — then Claude is the narrator instead. |
 | `DATABASE_URL` | Saved runs live in memory and disappear on restart. `/api/runs` says so in its response. |
 
 ### Deploying to Vercel
@@ -116,12 +117,18 @@ rather than on luck — every run in it is seeded.
 
 `rules.ai_role`: *"Narrates the result it is given. Never decides outcomes."*
 
+The narrator is whichever key is present: `GEMINI_API_KEY` (default,
+`gemini-2.5-flash`, free tier), else `ANTHROPIC_API_KEY` (`claude-opus-5`),
+else the local template. Swapping one for the other changes only the prose —
+the fight is already over by then.
+
 `/api/narrate` is called **after** the engine has resolved a round. It receives
 the result as fact — winner, who fell, which counters fired, whether it was an
 upset and which side pulled it — and writes 3–4 sentences. Nothing it returns
 is fed back into the engine, and the system prompt forbids it from contradicting,
-hedging or reversing the result. A refusal or an API error falls through to the
-local template.
+hedging or reversing the result. Every failure — bad key, quota exhausted,
+safety block, empty answer — falls through to the local template, so a round
+always gets a story. The server log names the cause.
 
 ## Sharing
 

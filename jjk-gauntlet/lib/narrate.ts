@@ -172,14 +172,99 @@ export function fallbackNarration(req: NarrationRequest): string {
   return parts.join(' ');
 }
 
-export async function narrateRound(req: NarrationRequest): Promise<{
-  story: string;
-  source: 'claude' | 'fallback';
-}> {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    return { story: fallbackNarration(req), source: 'fallback' };
+/** Which model writes the story. Gemini first: it has a free tier, which is
+ *  what this project runs on. Claude if that key is the one present. Neither
+ *  is required — the template below keeps the app playable. */
+export type NarrationSource = 'gemini' | 'claude' | 'fallback';
+
+export function activeProvider(): NarrationSource {
+  if (process.env.GEMINI_API_KEY) return 'gemini';
+  if (process.env.ANTHROPIC_API_KEY) return 'claude';
+  return 'fallback';
+}
+
+const GEMINI_HOST = 'https://generativelanguage.googleapis.com/v1beta/models';
+
+/** Google AI Studio's free tier covers the Flash models. Override with
+ *  GEMINI_MODEL if Google renames or retires this one. */
+const DEFAULT_GEMINI_MODEL = 'gemini-2.5-flash';
+
+interface GeminiResponse {
+  candidates?: {
+    content?: { parts?: { text?: string }[] };
+    finishReason?: string;
+  }[];
+  promptFeedback?: { blockReason?: string };
+  error?: { message?: string; status?: string };
+}
+
+async function narrateWithGemini(system: string, userBrief: string): Promise<string | null> {
+  const key = process.env.GEMINI_API_KEY;
+  if (!key) return null;
+  const model = process.env.GEMINI_MODEL || DEFAULT_GEMINI_MODEL;
+
+  const body = (withThinkingOff: boolean) => ({
+    system_instruction: { parts: [{ text: system }] },
+    contents: [{ role: 'user', parts: [{ text: userBrief }] }],
+    generationConfig: {
+      maxOutputTokens: 2048,
+      temperature: 1,
+      // Flash models think by default, and thinking tokens come out of the
+      // same budget. A 3-4 sentence narration does not need it.
+      ...(withThinkingOff ? { thinkingConfig: { thinkingBudget: 0 } } : {}),
+    },
+  });
+
+  const send = (withThinkingOff: boolean) =>
+    fetch(`${GEMINI_HOST}/${encodeURIComponent(model)}:generateContent`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'x-goog-api-key': key },
+      body: JSON.stringify(body(withThinkingOff)),
+    });
+
+  let response = await send(true);
+  let data = (await response.json()) as GeminiResponse;
+
+  // A model that does not accept thinkingConfig rejects the whole request.
+  // Retry once without it — but only for that, not for a bad key, which is
+  // also a 400.
+  if (!response.ok && /thinking/i.test(data.error?.message ?? '')) {
+    response = await send(false);
+    data = (await response.json()) as GeminiResponse;
   }
 
+  if (!response.ok) {
+    const message = data.error?.message ?? 'unknown error';
+    console.error(`narration: Gemini ${response.status} (${model}): ${message}`);
+    if (/API key not valid|API_KEY_INVALID/i.test(message)) {
+      console.error('narration: check GEMINI_API_KEY in .env.local');
+    } else if (response.status === 404 || /not found|not supported/i.test(message)) {
+      console.error(
+        `narration: "${model}" is not available to this key. Set GEMINI_MODEL to one listed by ` +
+          'https://generativelanguage.googleapis.com/v1beta/models?key=YOUR_KEY',
+      );
+    }
+    return null;
+  }
+  if (data.promptFeedback?.blockReason) {
+    console.error(`narration: Gemini blocked the prompt (${data.promptFeedback.blockReason})`);
+    return null;
+  }
+
+  const candidate = data.candidates?.[0];
+  if (candidate?.finishReason && !['STOP', 'MAX_TOKENS'].includes(candidate.finishReason)) {
+    console.error(`narration: Gemini stopped early (${candidate.finishReason})`);
+    return null;
+  }
+
+  const text = (candidate?.content?.parts ?? [])
+    .map((part) => part.text ?? '')
+    .join('')
+    .trim();
+  return text || null;
+}
+
+async function narrateWithClaude(system: string, userBrief: string): Promise<string | null> {
   const { default: Anthropic } = await import('@anthropic-ai/sdk');
   const client = new Anthropic();
 
@@ -187,29 +272,52 @@ export async function narrateRound(req: NarrationRequest): Promise<{
     const response = await client.messages.create({
       model: 'claude-opus-5',
       max_tokens: 1000,
-      system: SYSTEM,
+      system,
       // Narration is a short, well-specified writing task: low effort keeps it
       // fast and cheap without turning thinking off.
       output_config: { effort: 'low' },
-      messages: [{ role: 'user', content: brief(req) }],
+      messages: [{ role: 'user', content: userBrief }],
     });
 
-    if (response.stop_reason === 'refusal') return { story: fallbackNarration(req), source: 'fallback' };
+    if (response.stop_reason === 'refusal') return null;
 
-    const story = response.content
-      .filter((b): b is Extract<typeof b, { type: 'text' }> => b.type === 'text')
-      .map((b) => b.text)
-      .join('\n')
-      .trim();
-
-    return story ? { story, source: 'claude' } : { story: fallbackNarration(req), source: 'fallback' };
+    return (
+      response.content
+        .filter((b): b is Extract<typeof b, { type: 'text' }> => b.type === 'text')
+        .map((b) => b.text)
+        .join('\n')
+        .trim() || null
+    );
   } catch (error) {
     const Sdk = (await import('@anthropic-ai/sdk')).default;
     if (error instanceof Sdk.APIError) {
-      console.error(`narration: API error ${error.status}: ${error.message}`);
+      console.error(`narration: Claude API error ${error.status}: ${error.message}`);
     } else {
-      console.error('narration failed', error);
+      console.error('narration: Claude call failed', error);
     }
-    return { story: fallbackNarration(req), source: 'fallback' };
+    return null;
   }
+}
+
+export async function narrateRound(req: NarrationRequest): Promise<{
+  story: string;
+  source: NarrationSource;
+}> {
+  const provider = activeProvider();
+  if (provider === 'fallback') return { story: fallbackNarration(req), source: 'fallback' };
+
+  const userBrief = brief(req);
+  let story: string | null = null;
+  try {
+    story =
+      provider === 'gemini'
+        ? await narrateWithGemini(SYSTEM, userBrief)
+        : await narrateWithClaude(SYSTEM, userBrief);
+  } catch (error) {
+    console.error('narration failed', error);
+  }
+
+  // Any failure — bad key, quota, safety block, empty answer — lands here, and
+  // the round still gets a story.
+  return story ? { story, source: provider } : { story: fallbackNarration(req), source: 'fallback' };
 }
