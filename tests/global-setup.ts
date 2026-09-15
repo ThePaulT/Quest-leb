@@ -10,6 +10,15 @@ import { Pool } from 'pg';
  * and point DATABASE_URL at it.
  */
 export default async function setup() {
+  // Pick up .env.local the same way `next dev` and `npm run seed` do, so the
+  // documented setup works without also exporting DATABASE_URL by hand.
+  // Anything already in the environment wins, which keeps CI in control.
+  try {
+    process.loadEnvFile('.env.local');
+  } catch {
+    // No .env.local — fall through to the explicit error below.
+  }
+
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
     throw new Error(

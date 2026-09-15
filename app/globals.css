@@ -1,11 +1,12 @@
 @import "tailwindcss";
 
 /*
- * Imported here, not from the map component: a component-level import is
- * bundled AFTER this file, so MapLibre's own rules would win the cascade and
- * every control override at the bottom of this file would silently do nothing.
+ * MapLibre's stylesheet is NOT imported here. It is imported from
+ * app/layout.tsx on the line ABOVE this file, which achieves the same cascade
+ * order (its rules first, the overrides at the bottom of this file second)
+ * without asking the CSS resolver to find a bare package specifier — which is
+ * what broke `next dev` on a fresh install.
  */
-@import "maplibre-gl/dist/maplibre-gl.css";
 
 /*
  * Lebanon Quest design tokens. See the Design section of CLAUDE.md.
