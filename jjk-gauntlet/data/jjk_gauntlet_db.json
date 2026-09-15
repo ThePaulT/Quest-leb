@@ -1,0 +1,2741 @@
+{
+  "name": "JJK Gauntlet Database",
+  "version": "1.0.0",
+  "updated": "2026-09-15",
+  "scope": "Original Jujutsu Kaisen manga, ch. 1-271. Peak versions only. JJK Modulo excluded.",
+  "canon_status_legend": {
+    "canon": "Shown in the manga",
+    "inferred": "Logical extension of shown rules",
+    "fanbook": "Named in official supplementary material, not shown in fights",
+    "fan_theory": "Popular speculation, labeled in UI",
+    "game_mechanic": "Invented for balance/fun"
+  },
+  "tier_bands": {
+    "S+": "95+",
+    "S": "88-94",
+    "A": "80-87",
+    "B": "70-79",
+    "C": "60-69",
+    "D": "<60"
+  },
+  "characters": [
+    {
+      "id": "yuji",
+      "name": "Yuji Itadori",
+      "side": "hero",
+      "power": 91,
+      "stats": {
+        "ce": 88,
+        "phy": 95,
+        "tec": 85,
+        "dom": 80
+      },
+      "role": "frontliner",
+      "draft_groups": [
+        "tokyo_high"
+      ],
+      "tags": [
+        "soul_strike",
+        "black_flash",
+        "rct",
+        "anti_domain",
+        "sure_hit_domain",
+        "blood_manipulation",
+        "shrine"
+      ],
+      "peak_version": "Shinjuku Showdown finale (ch. 264-268)",
+      "techniques": [
+        "Divergent Fist",
+        "Black Flash (chains)",
+        "Shrine: Dismantle / Cleave (soul-targeting)",
+        "Blood Manipulation (from Death Paintings 4-9)",
+        "Reverse Cursed Technique",
+        "Simple Domain"
+      ],
+      "domain": {
+        "name": "Unnamed (his hometown)",
+        "type": "closed",
+        "sure_hit": "Soul Dismantle on the boundary between souls",
+        "canon_status": "canon"
+      },
+      "special": null,
+      "rarity": "rare",
+      "canon_grade": "-",
+      "story_hook": "Hits the soul, not just the body. Gets stronger the longer the fight goes.",
+      "notes": "JJK Modulo Yuji is far stronger; excluded to keep the original-manga peak.",
+      "tier": "S"
+    },
+    {
+      "id": "megumi",
+      "name": "Megumi Fushiguro",
+      "side": "hero",
+      "power": 80,
+      "stats": {
+        "ce": 80,
+        "phy": 72,
+        "tec": 88,
+        "dom": 60
+      },
+      "role": "summoner",
+      "draft_groups": [
+        "tokyo_high"
+      ],
+      "tags": [
+        "shikigami",
+        "incomplete_domain",
+        "mahoraga"
+      ],
+      "peak_version": "Culling Game, before Sukuna's takeover",
+      "techniques": [
+        "Ten Shadows (Divine Dogs, Nue, Max Elephant, Toad, Great Serpent, Rabbit Escape)",
+        "Chimera shikigami",
+        "Divine General Mahoraga (last-resort summon)"
+      ],
+      "domain": {
+        "name": "Chimera Shadow Garden",
+        "type": "incomplete",
+        "sure_hit": "None (incomplete domain)",
+        "canon_status": "canon"
+      },
+      "special": {
+        "key": "mahoraga_gambit",
+        "description": "When Megumi would fall, 40% chance he summons Mahoraga: the opponent loses 15 power for this round. Megumi still falls.",
+        "params": {
+          "chance": 0.4,
+          "opp_power_loss": 15
+        }
+      },
+      "rarity": "common",
+      "canon_grade": "Grade 2",
+      "story_hook": "Calm tactician with a dog pack and one very bad last-resort summon.",
+      "notes": "",
+      "tier": "A"
+    },
+    {
+      "id": "nobara",
+      "name": "Nobara Kugisaki",
+      "side": "hero",
+      "power": 68,
+      "stats": {
+        "ce": 72,
+        "phy": 62,
+        "tec": 78,
+        "dom": 0
+      },
+      "role": "support",
+      "draft_groups": [
+        "tokyo_high"
+      ],
+      "tags": [
+        "soul_damage",
+        "resonance",
+        "ranged"
+      ],
+      "peak_version": "Shinjuku return (ch. 267)",
+      "techniques": [
+        "Straw Doll Technique: Hairpin",
+        "Resonance (damage through an effigy or a severed body part)"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "Nails, a hammer, and zero fear. Resonance hurts the soul from a distance.",
+      "notes": "",
+      "tier": "C"
+    },
+    {
+      "id": "maki",
+      "name": "Maki Zenin",
+      "side": "hero",
+      "power": 86,
+      "stats": {
+        "ce": 0,
+        "phy": 99,
+        "tec": 72,
+        "dom": 0
+      },
+      "role": "frontliner",
+      "draft_groups": [
+        "tokyo_high"
+      ],
+      "tags": [
+        "zero_ce",
+        "barrier_ignore",
+        "cursed_tools"
+      ],
+      "peak_version": "Complete Heavenly Restriction (after the Zenin Clan massacre)",
+      "techniques": [
+        "Complete Heavenly Restriction",
+        "Dragon-Bone",
+        "Playful Cloud",
+        "Zenin armory tools"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "No cursed energy at all, so closed domains can't target her. Pure speed and steel.",
+      "notes": "",
+      "tier": "A"
+    },
+    {
+      "id": "panda",
+      "name": "Panda",
+      "side": "hero",
+      "power": 64,
+      "stats": {
+        "ce": 60,
+        "phy": 78,
+        "tec": 55,
+        "dom": 0
+      },
+      "role": "frontliner",
+      "draft_groups": [
+        "tokyo_high"
+      ],
+      "tags": [
+        "multi_core"
+      ],
+      "peak_version": "Kyoto Goodwill / Shibuya",
+      "techniques": [
+        "Abrupt Mutated Cursed Corpse",
+        "Gorilla Core: Drumming Beat"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": {
+        "key": "spare_core",
+        "description": "The first time Panda would fall, he switches cores and stays in (once per run).",
+        "params": {
+          "uses": 1
+        }
+      },
+      "rarity": "common",
+      "canon_grade": "Grade 2",
+      "story_hook": "Three souls in one body. Hard to put down for good.",
+      "notes": "",
+      "tier": "C"
+    },
+    {
+      "id": "inumaki",
+      "name": "Toge Inumaki",
+      "side": "hero",
+      "power": 72,
+      "stats": {
+        "ce": 78,
+        "phy": 55,
+        "tec": 82,
+        "dom": 0
+      },
+      "role": "controller",
+      "draft_groups": [
+        "tokyo_high"
+      ],
+      "tags": [
+        "cursed_speech"
+      ],
+      "peak_version": "Shibuya (before losing his arm)",
+      "techniques": [
+        "Cursed Speech (stop, blast away, don't move, etc.)"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": {
+        "key": "speech_strain",
+        "description": "vs opponents 10+ power above him: +3 and double fall risk. Otherwise +6.",
+        "params": {
+          "strong_bonus": 6,
+          "weak_bonus": 3
+        }
+      },
+      "rarity": "common",
+      "canon_grade": "Semi-Grade 1",
+      "story_hook": "Only speaks in rice-ball ingredients. When he says a real word, things obey.",
+      "notes": "",
+      "tier": "B"
+    },
+    {
+      "id": "yuta",
+      "name": "Yuta Okkotsu",
+      "side": "hero",
+      "power": 90,
+      "stats": {
+        "ce": 97,
+        "phy": 80,
+        "tec": 92,
+        "dom": 88
+      },
+      "role": "domain_user",
+      "draft_groups": [
+        "tokyo_high",
+        "special_grades"
+      ],
+      "tags": [
+        "copy",
+        "rct",
+        "heal_ally",
+        "sure_hit_domain",
+        "rika",
+        "cursed_speech"
+      ],
+      "peak_version": "Shinjuku Showdown (Rika, Authentic Mutual Love, Gojo's body)",
+      "techniques": [
+        "Rika (full manifestation)",
+        "Copy",
+        "Reverse Cursed Technique (can heal others)",
+        "Copied: Cursed Speech, Uro's Thin Ice Breaker, Charles' G Warstaff",
+        "Brain-hop into Gojo's body: Unlimited Void, Hollow Purple"
+      ],
+      "domain": {
+        "name": "Authentic Mutual Love",
+        "type": "closed",
+        "sure_hit": "One copied technique at a time, stored in katanas",
+        "canon_status": "canon"
+      },
+      "special": {
+        "key": "copy",
+        "description": "Before each round, copies one copyable counter tag from the opponent.",
+        "params": {
+          "copyable": [
+            "cursed_speech",
+            "anti_domain",
+            "black_flash",
+            "shrine",
+            "curse_manipulation",
+            "blood_manipulation"
+          ]
+        }
+      },
+      "rarity": "rare",
+      "canon_grade": "Special Grade",
+      "story_hook": "Endless cursed energy and a borrowed toolbox. Will become a monster if it wins.",
+      "notes": "",
+      "tier": "S"
+    },
+    {
+      "id": "hakari",
+      "name": "Kinji Hakari",
+      "side": "hero",
+      "power": 86,
+      "stats": {
+        "ce": 88,
+        "phy": 82,
+        "tec": 80,
+        "dom": 85
+      },
+      "role": "domain_user",
+      "draft_groups": [
+        "tokyo_high"
+      ],
+      "tags": [
+        "jackpot",
+        "sure_hit_domain"
+      ],
+      "peak_version": "Culling Game (vs Kashimo) / Shinjuku (vs Uraume)",
+      "techniques": [
+        "Idle Death Gamble",
+        "Jackpot: unlimited cursed energy + automatic RCT for 4m11s"
+      ],
+      "domain": {
+        "name": "Idle Death Gamble",
+        "type": "closed",
+        "sure_hit": "Forces a pachinko game; no direct damage",
+        "canon_status": "canon"
+      },
+      "special": {
+        "key": "jackpot",
+        "description": "25% per round: Hakari can't fall this round and the team gets +5.",
+        "params": {
+          "chance": 0.25,
+          "bonus": 5
+        }
+      },
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "A gambler whose domain is a pachinko machine. Hit the jackpot and he's unkillable.",
+      "notes": "",
+      "tier": "A"
+    },
+    {
+      "id": "kirara",
+      "name": "Kirara Hoshi",
+      "side": "hero",
+      "power": 62,
+      "stats": {
+        "ce": 65,
+        "phy": 50,
+        "tec": 72,
+        "dom": 0
+      },
+      "role": "controller",
+      "draft_groups": [
+        "tokyo_high"
+      ],
+      "tags": [
+        "spacing_control"
+      ],
+      "peak_version": "Culling Game",
+      "techniques": [
+        "Love Rendezvous (constellation-based distance rules)"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "Controls who can get close to whom. Hakari's partner in crime.",
+      "notes": "",
+      "tier": "C"
+    },
+    {
+      "id": "todo",
+      "name": "Aoi Todo",
+      "side": "hero",
+      "power": 82,
+      "stats": {
+        "ce": 78,
+        "phy": 90,
+        "tec": 84,
+        "dom": 0
+      },
+      "role": "support",
+      "draft_groups": [
+        "kyoto_school"
+      ],
+      "tags": [
+        "black_flash",
+        "swap",
+        "team_enabler"
+      ],
+      "peak_version": "Shibuya (both hands, full Boogie Woogie)",
+      "techniques": [
+        "Boogie Woogie (clap to swap positions)",
+        "Black Flash",
+        "Vibraslap prosthetic (Shinjuku)"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": {
+        "key": "boogie_woogie",
+        "description": "Team gets +3 while at least 2 members are alive.",
+        "params": {
+          "bonus": 3
+        }
+      },
+      "rarity": "common",
+      "canon_grade": "Grade 1",
+      "story_hook": "Yuji's self-declared best friend. One clap and the whole fight rearranges.",
+      "notes": "",
+      "tier": "A"
+    },
+    {
+      "id": "kamo",
+      "name": "Noritoshi Kamo",
+      "side": "hero",
+      "power": 62,
+      "stats": {
+        "ce": 65,
+        "phy": 55,
+        "tec": 72,
+        "dom": 0
+      },
+      "role": "support",
+      "draft_groups": [
+        "kyoto_school"
+      ],
+      "tags": [
+        "blood_manipulation"
+      ],
+      "peak_version": "Kyoto Goodwill / Culling Game",
+      "techniques": [
+        "Blood Manipulation: Flowing Red Scale, Piercing Blood, Convergence"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "Kamo clan heir. Precise blood techniques from a bag of blood packs.",
+      "notes": "",
+      "tier": "C"
+    },
+    {
+      "id": "mechamaru",
+      "name": "Kokichi Muta (Mechamaru)",
+      "side": "hero",
+      "power": 70,
+      "stats": {
+        "ce": 88,
+        "phy": 40,
+        "tec": 72,
+        "dom": 0
+      },
+      "role": "controller",
+      "draft_groups": [
+        "kyoto_school"
+      ],
+      "tags": [
+        "ranged",
+        "ce_battery"
+      ],
+      "peak_version": "Ultimate Mechamaru (vs Mahito)",
+      "techniques": [
+        "Puppet Manipulation",
+        "Ultimate Mechamaru: Absolute Mode",
+        "Stored cursed energy cannons"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "A frail body traded for a huge cursed energy tank, poured into a giant robot.",
+      "notes": "",
+      "tier": "B"
+    },
+    {
+      "id": "miwa",
+      "name": "Kasumi Miwa",
+      "side": "hero",
+      "power": 52,
+      "stats": {
+        "ce": 45,
+        "phy": 55,
+        "tec": 60,
+        "dom": 0
+      },
+      "role": "support",
+      "draft_groups": [
+        "kyoto_school"
+      ],
+      "tags": [
+        "anti_domain"
+      ],
+      "peak_version": "Culling Game era",
+      "techniques": [
+        "New Shadow Style: Simple Domain",
+        "Batto sword draw"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "Self-described useless Miwa. Her Simple Domain says otherwise.",
+      "notes": "",
+      "tier": "D"
+    },
+    {
+      "id": "momo",
+      "name": "Momo Nishimiya",
+      "side": "hero",
+      "power": 48,
+      "stats": {
+        "ce": 55,
+        "phy": 40,
+        "tec": 60,
+        "dom": 0
+      },
+      "role": "support",
+      "draft_groups": [
+        "kyoto_school"
+      ],
+      "tags": [
+        "flight",
+        "ranged"
+      ],
+      "peak_version": "Kyoto Goodwill",
+      "techniques": [
+        "Broom flight",
+        "Wind blasts from the broom"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "Scouts from the sky and calls the plays.",
+      "notes": "",
+      "tier": "D"
+    },
+    {
+      "id": "mai",
+      "name": "Mai Zenin",
+      "side": "hero",
+      "power": 50,
+      "stats": {
+        "ce": 55,
+        "phy": 50,
+        "tec": 62,
+        "dom": 0
+      },
+      "role": "support",
+      "draft_groups": [
+        "kyoto_school"
+      ],
+      "tags": [
+        "construction",
+        "ranged"
+      ],
+      "peak_version": "Zenin Clan Incident",
+      "techniques": [
+        "Construction (one bullet at a time, costly)",
+        "Sharpshooting"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "Maki's twin. One perfect shot when it matters.",
+      "notes": "",
+      "tier": "D"
+    },
+    {
+      "id": "nanami",
+      "name": "Kento Nanami",
+      "side": "hero",
+      "power": 78,
+      "stats": {
+        "ce": 72,
+        "phy": 84,
+        "tec": 80,
+        "dom": 0
+      },
+      "role": "frontliner",
+      "draft_groups": [
+        "grade_1_adults"
+      ],
+      "tags": [
+        "ratio_crit"
+      ],
+      "peak_version": "Shibuya Incident",
+      "techniques": [
+        "Ratio Technique (7:3 weak point)",
+        "Overtime",
+        "Collapse"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": {
+        "key": "overtime",
+        "description": "+4 from round 3 onward.",
+        "params": {
+          "bonus": 4,
+          "from_round": 3
+        }
+      },
+      "rarity": "common",
+      "canon_grade": "Grade 1",
+      "story_hook": "A salaryman sorcerer. Clocks out at a certain hour, then gets dangerous.",
+      "notes": "",
+      "tier": "B"
+    },
+    {
+      "id": "mei_mei",
+      "name": "Mei Mei",
+      "side": "hero",
+      "power": 77,
+      "stats": {
+        "ce": 78,
+        "phy": 75,
+        "tec": 80,
+        "dom": 0
+      },
+      "role": "support",
+      "draft_groups": [
+        "grade_1_adults"
+      ],
+      "tags": [
+        "ranged",
+        "scout"
+      ],
+      "peak_version": "Shibuya / Shinjuku support",
+      "techniques": [
+        "Black Bird Manipulation",
+        "Bird Strike"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": {
+        "key": "bird_strike",
+        "description": "Once per run: +8 on the round the team needs it most.",
+        "params": {
+          "bonus": 8,
+          "uses": 1
+        }
+      },
+      "rarity": "common",
+      "canon_grade": "Grade 1",
+      "story_hook": "Mercenary with an axe and a crow army. Charges for everything.",
+      "notes": "",
+      "tier": "B"
+    },
+    {
+      "id": "kusakabe",
+      "name": "Atsuya Kusakabe",
+      "side": "hero",
+      "power": 76,
+      "stats": {
+        "ce": 60,
+        "phy": 78,
+        "tec": 85,
+        "dom": 0
+      },
+      "role": "frontliner",
+      "draft_groups": [
+        "grade_1_adults"
+      ],
+      "tags": [
+        "anti_domain",
+        "strong_anti_domain"
+      ],
+      "peak_version": "Shinjuku Showdown",
+      "techniques": [
+        "New Shadow Style: Simple Domain",
+        "Batto",
+        "No innate technique"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "Grade 1",
+      "story_hook": "No cursed technique, just elite sword work and the best Simple Domain around.",
+      "notes": "",
+      "tier": "B"
+    },
+    {
+      "id": "naobito",
+      "name": "Naobito Zenin",
+      "side": "hero",
+      "power": 80,
+      "stats": {
+        "ce": 75,
+        "phy": 82,
+        "tec": 86,
+        "dom": 0
+      },
+      "role": "frontliner",
+      "draft_groups": [
+        "grade_1_adults"
+      ],
+      "tags": [
+        "speed_projection"
+      ],
+      "peak_version": "Shibuya Incident",
+      "techniques": [
+        "Projection Sorcery (24-frame movement)"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "Special Grade 1",
+      "story_hook": "Head of the Zenin clan and once the fastest sorcerer alive. Drinks on the job.",
+      "notes": "",
+      "tier": "A"
+    },
+    {
+      "id": "yaga",
+      "name": "Masamichi Yaga",
+      "side": "hero",
+      "power": 60,
+      "stats": {
+        "ce": 70,
+        "phy": 65,
+        "tec": 68,
+        "dom": 0
+      },
+      "role": "summoner",
+      "draft_groups": [
+        "grade_1_adults"
+      ],
+      "tags": [
+        "shikigami"
+      ],
+      "peak_version": "Before the Culling Game",
+      "techniques": [
+        "Cursed Corpses (Panda's creator)"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "Principal and puppet-maker. Knits while he thinks.",
+      "notes": "",
+      "tier": "C"
+    },
+    {
+      "id": "ino",
+      "name": "Takuma Ino",
+      "side": "hero",
+      "power": 64,
+      "stats": {
+        "ce": 65,
+        "phy": 65,
+        "tec": 70,
+        "dom": 0
+      },
+      "role": "support",
+      "draft_groups": [
+        "grade_1_adults"
+      ],
+      "tags": [
+        "shikigami"
+      ],
+      "peak_version": "Shinjuku Showdown",
+      "techniques": [
+        "Auspicious Beasts: Kaichi, Reiki, Kirin, Baku"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "Nanami's admirer. Summons lucky beasts through a mask.",
+      "notes": "",
+      "tier": "C"
+    },
+    {
+      "id": "yuki",
+      "name": "Yuki Tsukumo",
+      "side": "hero",
+      "power": 88,
+      "stats": {
+        "ce": 90,
+        "phy": 80,
+        "tec": 88,
+        "dom": 0
+      },
+      "role": "frontliner",
+      "draft_groups": [
+        "special_grades"
+      ],
+      "tags": [
+        "mass_amplify",
+        "shikigami"
+      ],
+      "peak_version": "Vs Kenjaku at Tengen's barrier",
+      "techniques": [
+        "Star Rage (adds virtual mass)",
+        "Garuda (shikigami)",
+        "Black Hole (final move)"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": {
+        "key": "black_hole",
+        "description": "Once per run on a losing round: +10, then Yuki falls after the round.",
+        "params": {
+          "bonus": 10,
+          "uses": 1
+        }
+      },
+      "rarity": "rare",
+      "canon_grade": "Special Grade",
+      "story_hook": "Special grade who asks everyone their type. Her last move collapses into a black hole.",
+      "notes": "",
+      "tier": "S"
+    },
+    {
+      "id": "higuruma",
+      "name": "Hiromi Higuruma",
+      "side": "hero",
+      "power": 84,
+      "stats": {
+        "ce": 80,
+        "phy": 70,
+        "tec": 90,
+        "dom": 90
+      },
+      "role": "domain_user",
+      "draft_groups": [
+        "culling_game_heroes"
+      ],
+      "tags": [
+        "confiscation",
+        "death_penalty",
+        "sure_hit_domain"
+      ],
+      "peak_version": "Shinjuku Showdown",
+      "techniques": [
+        "Deadly Sentencing (Judgeman)",
+        "Confiscation",
+        "Executioner's Sword",
+        "Gavel"
+      ],
+      "domain": {
+        "name": "Deadly Sentencing",
+        "type": "closed",
+        "sure_hit": "Forces a trial; verdict can confiscate a technique or grant the Executioner's Sword",
+        "canon_status": "canon"
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "A lawyer who awakened in weeks. Puts opponents on trial; a guilty verdict can mean a sure-kill sword.",
+      "notes": "Confiscation takes a cursed tool first if the target holds one (Sukuna lost Kamutoke, ch. 245).",
+      "tier": "A"
+    },
+    {
+      "id": "kashimo",
+      "name": "Hajime Kashimo",
+      "side": "hero",
+      "power": 85,
+      "stats": {
+        "ce": 90,
+        "phy": 80,
+        "tec": 82,
+        "dom": 0
+      },
+      "role": "frontliner",
+      "draft_groups": [
+        "culling_game_heroes"
+      ],
+      "tags": [
+        "electric_ce"
+      ],
+      "peak_version": "Vs Sukuna (Shinjuku)",
+      "techniques": [
+        "Electric cursed energy",
+        "Mythical Beast Amber (one-time transformation)"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": {
+        "key": "mythical_beast_amber",
+        "description": "First losing round: +12, then Kashimo falls after the round.",
+        "params": {
+          "bonus": 12,
+          "uses": 1
+        }
+      },
+      "rarity": "rare",
+      "canon_grade": "-",
+      "story_hook": "A 400-year-old lightning sorcerer looking for someone strong enough. His trump card burns his body out.",
+      "notes": "Gray character (Culling Game player). Locked to heroes: he fought for Jujutsu High in Shinjuku.",
+      "tier": "A"
+    },
+    {
+      "id": "takaba",
+      "name": "Fumihiko Takaba",
+      "side": "hero",
+      "power": 70,
+      "stats": {
+        "ce": 70,
+        "phy": 55,
+        "tec": 95,
+        "dom": 0
+      },
+      "role": "support",
+      "draft_groups": [
+        "culling_game_heroes"
+      ],
+      "tags": [
+        "comedian"
+      ],
+      "peak_version": "Vs Kenjaku (Shinjuku)",
+      "techniques": [
+        "Comedian (whatever he finds funny becomes real)"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": {
+        "key": "comedian_shield",
+        "description": "The first time any teammate would fall, it doesn't happen (once per run).",
+        "params": {
+          "uses": 1
+        }
+      },
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "A struggling comedian whose jokes rewrite reality. As long as he finds it funny, he can't lose.",
+      "notes": "",
+      "tier": "B"
+    },
+    {
+      "id": "hana",
+      "name": "Hana Kurusu (Angel)",
+      "side": "hero",
+      "power": 80,
+      "stats": {
+        "ce": 82,
+        "phy": 50,
+        "tec": 95,
+        "dom": 0
+      },
+      "role": "controller",
+      "draft_groups": [
+        "culling_game_heroes"
+      ],
+      "tags": [
+        "extinguish",
+        "flight"
+      ],
+      "peak_version": "Culling Game (before losing her arm)",
+      "techniques": [
+        "Technique Extinguishment",
+        "Maximum Output: Jacob's Ladder",
+        "Flight"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "rare",
+      "canon_grade": "-",
+      "story_hook": "Shares her body with a Heian sorcerer whose light erases techniques, barriers, and cursed objects.",
+      "notes": "",
+      "tier": "A"
+    },
+    {
+      "id": "choso",
+      "name": "Choso",
+      "side": "hero",
+      "power": 80,
+      "stats": {
+        "ce": 84,
+        "phy": 78,
+        "tec": 85,
+        "dom": 0
+      },
+      "role": "frontliner",
+      "draft_groups": [
+        "culling_game_heroes"
+      ],
+      "tags": [
+        "blood_manipulation",
+        "poison_blood"
+      ],
+      "peak_version": "Shibuya / Shinjuku",
+      "techniques": [
+        "Blood Manipulation: Convergence, Piercing Blood, Supernova, Flowing Red Scale"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "Eldest Death Painting brother. Now Yuji's big brother, and he means it.",
+      "notes": "Gray character. Locked to heroes (sided with Yuji after Shibuya).",
+      "tier": "A"
+    },
+    {
+      "id": "gojo",
+      "name": "Satoru Gojo",
+      "side": "hero",
+      "power": 98,
+      "stats": {
+        "ce": 100,
+        "phy": 90,
+        "tec": 100,
+        "dom": 99
+      },
+      "role": "domain_user",
+      "draft_groups": [
+        "special_grades"
+      ],
+      "tags": [
+        "infinity",
+        "six_eyes",
+        "rct",
+        "sure_hit_domain",
+        "black_flash"
+      ],
+      "peak_version": "Post-awakening (Shibuya / vs Sukuna)",
+      "techniques": [
+        "Limitless: Infinity, Blue, Red, Hollow Purple (200%)",
+        "Six Eyes",
+        "Reverse Cursed Technique",
+        "Black Flash"
+      ],
+      "domain": {
+        "name": "Unlimited Void",
+        "type": "closed",
+        "sure_hit": "Floods the target with infinite information",
+        "canon_status": "canon"
+      },
+      "special": null,
+      "rarity": "legendary",
+      "canon_grade": "Special Grade",
+      "story_hook": "The Strongest. Untouchable until someone finds a way around Infinity.",
+      "notes": "Final boss of the Villain Gauntlet. Legendary draft roll in the Hero Gauntlet.",
+      "tier": "S+"
+    },
+    {
+      "id": "sukuna",
+      "name": "Ryomen Sukuna",
+      "side": "villain",
+      "power": 99,
+      "stats": {
+        "ce": 100,
+        "phy": 96,
+        "tec": 100,
+        "dom": 100
+      },
+      "role": "domain_user",
+      "draft_groups": [
+        "legendary"
+      ],
+      "tags": [
+        "world_cutting_slash",
+        "domain_amplification",
+        "adaptation",
+        "open_domain",
+        "sure_hit_domain",
+        "rct",
+        "flame",
+        "incarnated",
+        "cursed_tools"
+      ],
+      "peak_version": "Shinjuku, full 20 fingers + Heian form",
+      "techniques": [
+        "Shrine: Dismantle, Cleave, World-Cutting Slash",
+        "Fuga (Open)",
+        "Domain Amplification",
+        "Reverse Cursed Technique",
+        "Heian form (four arms, two mouths)",
+        "Ten Shadows via Megumi's body, incl. Mahoraga",
+        "Kamutoke (cursed tool)"
+      ],
+      "domain": {
+        "name": "Malevolent Shrine",
+        "type": "open",
+        "sure_hit": "Dismantle and Cleave on everything in range",
+        "canon_status": "canon"
+      },
+      "special": null,
+      "rarity": "legendary",
+      "canon_grade": "Special Grade",
+      "story_hook": "The King of Curses. Treats every fight as a meal.",
+      "notes": "Final boss of the Hero Gauntlet. Legendary draft roll in the Villain Gauntlet.",
+      "tier": "S+"
+    },
+    {
+      "id": "kenjaku",
+      "name": "Kenjaku",
+      "side": "villain",
+      "power": 90,
+      "stats": {
+        "ce": 92,
+        "phy": 72,
+        "tec": 95,
+        "dom": 94
+      },
+      "role": "domain_user",
+      "draft_groups": [
+        "kenjaku_circle"
+      ],
+      "tags": [
+        "curse_manipulation",
+        "antigravity",
+        "open_domain",
+        "sure_hit_domain",
+        "incarnated",
+        "strategist"
+      ],
+      "peak_version": "Culling Game / vs Yuki and Choso",
+      "techniques": [
+        "Brain transplant (body hopping)",
+        "Cursed Spirit Manipulation (Geto's body)",
+        "Maximum: Uzumaki",
+        "Anti-Gravity System (from Kaori's body)",
+        "Stored special-grade curses"
+      ],
+      "domain": {
+        "name": "Womb Profusion",
+        "type": "open",
+        "sure_hit": "Barrierless domain; blast-wave sure-hit",
+        "canon_status": "canon"
+      },
+      "special": null,
+      "rarity": "rare",
+      "canon_grade": "-",
+      "story_hook": "A thousand-year schemer wearing Geto's face. Always three moves ahead.",
+      "notes": "",
+      "tier": "S"
+    },
+    {
+      "id": "geto",
+      "name": "Suguru Geto",
+      "side": "villain",
+      "power": 84,
+      "stats": {
+        "ce": 88,
+        "phy": 78,
+        "tec": 88,
+        "dom": 0
+      },
+      "role": "summoner",
+      "draft_groups": [
+        "killers_and_curse_users"
+      ],
+      "tags": [
+        "curse_manipulation",
+        "shikigami"
+      ],
+      "peak_version": "Night Parade of a Hundred Demons (JJK 0)",
+      "techniques": [
+        "Cursed Spirit Manipulation",
+        "Maximum: Uzumaki",
+        "Rainbow Dragon and stored curses"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "rare",
+      "canon_grade": "-",
+      "story_hook": "Gojo's former best friend. Commands an army of swallowed curses.",
+      "notes": "",
+      "tier": "A"
+    },
+    {
+      "id": "toji",
+      "name": "Toji Fushiguro",
+      "side": "villain",
+      "power": 86,
+      "stats": {
+        "ce": 0,
+        "phy": 100,
+        "tec": 80,
+        "dom": 0
+      },
+      "role": "assassin",
+      "draft_groups": [
+        "killers_and_curse_users"
+      ],
+      "tags": [
+        "zero_ce",
+        "barrier_ignore",
+        "tech_nullify",
+        "cursed_tools"
+      ],
+      "peak_version": "2006, vs young Gojo",
+      "techniques": [
+        "Complete Heavenly Restriction",
+        "Inverted Spear of Heaven",
+        "Playful Cloud",
+        "Chain of a Thousand Miles",
+        "Split Soul Katana",
+        "Storage curse"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "rare",
+      "canon_grade": "-",
+      "story_hook": "The Sorcerer Killer. Invisible to cursed energy and carrying a blade that cancels techniques.",
+      "notes": "Gray character. Locked to villains.",
+      "tier": "A"
+    },
+    {
+      "id": "miguel",
+      "name": "Miguel Oduol",
+      "side": "villain",
+      "power": 72,
+      "stats": {
+        "ce": 72,
+        "phy": 82,
+        "tec": 70,
+        "dom": 0
+      },
+      "role": "frontliner",
+      "draft_groups": [
+        "killers_and_curse_users"
+      ],
+      "tags": [
+        "black_rope",
+        "cursed_tools"
+      ],
+      "peak_version": "JJK 0 (vs Gojo)",
+      "techniques": [
+        "Black Rope (unravels techniques)",
+        "Rhythm-based fighting"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "Geto's loyal ally. His Black Rope kept even Gojo busy.",
+      "notes": "",
+      "tier": "B"
+    },
+    {
+      "id": "naoya",
+      "name": "Naoya Zenin (Cursed Spirit)",
+      "side": "villain",
+      "power": 82,
+      "stats": {
+        "ce": 82,
+        "phy": 84,
+        "tec": 86,
+        "dom": 82
+      },
+      "role": "assassin",
+      "draft_groups": [
+        "killers_and_curse_users"
+      ],
+      "tags": [
+        "speed_projection",
+        "sure_hit_domain",
+        "cursed_spirit"
+      ],
+      "peak_version": "Cursed-spirit form (Sakurajima Colony)",
+      "techniques": [
+        "Projection Sorcery",
+        "Supersonic movement"
+      ],
+      "domain": {
+        "name": "Time Cell Moon Palace",
+        "type": "closed",
+        "sure_hit": "Projection Sorcery applied to the target's cells",
+        "canon_status": "canon"
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "Came back as a curse just to get revenge. Faster than sound.",
+      "notes": "His domain failed to target Maki because she has zero cursed energy (canon).",
+      "tier": "A"
+    },
+    {
+      "id": "ogi",
+      "name": "Ogi Zenin",
+      "side": "villain",
+      "power": 70,
+      "stats": {
+        "ce": 68,
+        "phy": 72,
+        "tec": 70,
+        "dom": 0
+      },
+      "role": "frontliner",
+      "draft_groups": [
+        "killers_and_curse_users"
+      ],
+      "tags": [
+        "flame",
+        "cursed_tools"
+      ],
+      "peak_version": "Zenin Clan Incident",
+      "techniques": [
+        "Flame-coated sword technique"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "Maki and Mai's father. Head of the Zenin's military arm, and cruel about it.",
+      "notes": "",
+      "tier": "B"
+    },
+    {
+      "id": "mahito",
+      "name": "Mahito",
+      "side": "villain",
+      "power": 84,
+      "stats": {
+        "ce": 86,
+        "phy": 78,
+        "tec": 92,
+        "dom": 88
+      },
+      "role": "controller",
+      "draft_groups": [
+        "disaster_curses"
+      ],
+      "tags": [
+        "soul_manipulation",
+        "sure_hit_domain",
+        "cursed_spirit",
+        "shapeshift"
+      ],
+      "peak_version": "Shibuya (Instant Spirit Body of Distorted Killing)",
+      "techniques": [
+        "Idle Transfiguration",
+        "Polymorphic Soul Isomer",
+        "Body Repel",
+        "Instant Spirit Body of Distorted Killing"
+      ],
+      "domain": {
+        "name": "Self-Embodiment of Perfection",
+        "type": "closed",
+        "sure_hit": "Idle Transfiguration on touch-free contact",
+        "canon_status": "canon"
+      },
+      "special": {
+        "key": "polymorph",
+        "description": "Once per run, Mahito reshapes himself instead of falling.",
+        "params": {
+          "uses": 1
+        }
+      },
+      "rarity": "common",
+      "canon_grade": "Special Grade",
+      "story_hook": "A curse born from human hatred. Reshapes souls like clay, and enjoys it.",
+      "notes": "",
+      "tier": "A"
+    },
+    {
+      "id": "jogo",
+      "name": "Jogo",
+      "side": "villain",
+      "power": 83,
+      "stats": {
+        "ce": 90,
+        "phy": 70,
+        "tec": 84,
+        "dom": 86
+      },
+      "role": "domain_user",
+      "draft_groups": [
+        "disaster_curses"
+      ],
+      "tags": [
+        "flame",
+        "sure_hit_domain",
+        "cursed_spirit"
+      ],
+      "peak_version": "Shibuya",
+      "techniques": [
+        "Disaster Flames",
+        "Maximum: Meteor",
+        "Ember Insects"
+      ],
+      "domain": {
+        "name": "Coffin of the Iron Mountain",
+        "type": "closed",
+        "sure_hit": "Extreme heat inside a volcano",
+        "canon_status": "canon"
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "Special Grade",
+      "story_hook": "A volcano-headed curse who believes curses are the true humans.",
+      "notes": "",
+      "tier": "A"
+    },
+    {
+      "id": "hanami",
+      "name": "Hanami",
+      "side": "villain",
+      "power": 80,
+      "stats": {
+        "ce": 85,
+        "phy": 82,
+        "tec": 78,
+        "dom": 78
+      },
+      "role": "frontliner",
+      "draft_groups": [
+        "disaster_curses"
+      ],
+      "tags": [
+        "plant",
+        "tanky",
+        "cursed_spirit"
+      ],
+      "peak_version": "Kyoto Goodwill / Shibuya",
+      "techniques": [
+        "Cursed Buds (drain cursed energy)",
+        "Flower Field",
+        "Disaster Plants / Wooden Balls"
+      ],
+      "domain": {
+        "name": "Ceremonial Sea of Light",
+        "type": "closed",
+        "sure_hit": "Never shown in the manga",
+        "canon_status": "fanbook"
+      },
+      "special": {
+        "key": "tanky",
+        "description": "Fall risk reduced to 60%.",
+        "params": {
+          "fall_weight": 0.6
+        }
+      },
+      "rarity": "common",
+      "canon_grade": "Special Grade",
+      "story_hook": "A calm nature curse who wants to protect the planet from humans.",
+      "notes": "",
+      "tier": "A"
+    },
+    {
+      "id": "dagon",
+      "name": "Dagon",
+      "side": "villain",
+      "power": 79,
+      "stats": {
+        "ce": 82,
+        "phy": 70,
+        "tec": 80,
+        "dom": 84
+      },
+      "role": "summoner",
+      "draft_groups": [
+        "disaster_curses"
+      ],
+      "tags": [
+        "shikigami",
+        "sure_hit_domain",
+        "cursed_spirit"
+      ],
+      "peak_version": "Shibuya",
+      "techniques": [
+        "Death Swarm (endless sea shikigami)"
+      ],
+      "domain": {
+        "name": "Horizon of the Captivating Skandha",
+        "type": "closed",
+        "sure_hit": "Endless shikigami swarm",
+        "canon_status": "canon"
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "Special Grade",
+      "story_hook": "A sea curse whose domain is a beach that never ends.",
+      "notes": "",
+      "tier": "B"
+    },
+    {
+      "id": "kurourushi",
+      "name": "Kurourushi",
+      "side": "villain",
+      "power": 72,
+      "stats": {
+        "ce": 75,
+        "phy": 70,
+        "tec": 65,
+        "dom": 0
+      },
+      "role": "summoner",
+      "draft_groups": [
+        "disaster_curses"
+      ],
+      "tags": [
+        "swarm",
+        "tanky",
+        "cursed_spirit"
+      ],
+      "peak_version": "Sendai Colony",
+      "techniques": [
+        "Cockroach swarm",
+        "Regeneration"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": {
+        "key": "tanky",
+        "description": "Fall risk reduced to 60%.",
+        "params": {
+          "fall_weight": 0.6
+        }
+      },
+      "rarity": "common",
+      "canon_grade": "Special Grade",
+      "story_hook": "A special-grade cockroach curse. Nobody wants this fight.",
+      "notes": "",
+      "tier": "B"
+    },
+    {
+      "id": "uraume",
+      "name": "Uraume",
+      "side": "villain",
+      "power": 82,
+      "stats": {
+        "ce": 85,
+        "phy": 65,
+        "tec": 86,
+        "dom": 0
+      },
+      "role": "controller",
+      "draft_groups": [
+        "kenjaku_circle"
+      ],
+      "tags": [
+        "ice",
+        "loyalist"
+      ],
+      "peak_version": "Shinjuku (vs Hakari)",
+      "techniques": [
+        "Ice Formation: Frost Calm",
+        "Icefall"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "Sukuna's cook and most loyal servant from the Heian era.",
+      "notes": "",
+      "tier": "A"
+    },
+    {
+      "id": "eso",
+      "name": "Eso",
+      "side": "villain",
+      "power": 62,
+      "stats": {
+        "ce": 68,
+        "phy": 60,
+        "tec": 66,
+        "dom": 0
+      },
+      "role": "support",
+      "draft_groups": [
+        "kenjaku_circle"
+      ],
+      "tags": [
+        "blood_manipulation",
+        "rot"
+      ],
+      "peak_version": "Vs Yuji and Nobara",
+      "techniques": [
+        "Blood Manipulation (Wing King)",
+        "Rot Technique: Decay (with Kechizu)"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "Middle Death Painting brother. Blood that rots.",
+      "notes": "",
+      "tier": "C"
+    },
+    {
+      "id": "kechizu",
+      "name": "Kechizu",
+      "side": "villain",
+      "power": 55,
+      "stats": {
+        "ce": 60,
+        "phy": 58,
+        "tec": 60,
+        "dom": 0
+      },
+      "role": "support",
+      "draft_groups": [
+        "kenjaku_circle"
+      ],
+      "tags": [
+        "rot"
+      ],
+      "peak_version": "Vs Yuji and Nobara",
+      "techniques": [
+        "Rot Technique: Decay (with Eso)"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "Youngest Death Painting brother. Loud, weird, loyal.",
+      "notes": "",
+      "tier": "D"
+    },
+    {
+      "id": "yorozu",
+      "name": "Yorozu",
+      "side": "villain",
+      "power": 86,
+      "stats": {
+        "ce": 90,
+        "phy": 78,
+        "tec": 88,
+        "dom": 88
+      },
+      "role": "domain_user",
+      "draft_groups": [
+        "culling_game_villains"
+      ],
+      "tags": [
+        "construction",
+        "sure_hit_domain",
+        "incarnated"
+      ],
+      "peak_version": "Vs Sukuna (Culling Game)",
+      "techniques": [
+        "Construction (liquid metal)",
+        "Insect Armor",
+        "True Sphere"
+      ],
+      "domain": {
+        "name": "Threefold Affliction",
+        "type": "closed",
+        "sure_hit": "True Sphere as a guaranteed hit",
+        "canon_status": "canon"
+      },
+      "special": {
+        "key": "true_sphere",
+        "description": "Once per run on a losing round: +10.",
+        "params": {
+          "bonus": 10,
+          "uses": 1
+        }
+      },
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "A Heian sorcerer obsessed with Sukuna. Her perfect sphere carries infinite pressure.",
+      "notes": "",
+      "tier": "A"
+    },
+    {
+      "id": "ishigori",
+      "name": "Ryu Ishigori",
+      "side": "villain",
+      "power": 83,
+      "stats": {
+        "ce": 95,
+        "phy": 78,
+        "tec": 72,
+        "dom": 0
+      },
+      "role": "frontliner",
+      "draft_groups": [
+        "culling_game_villains"
+      ],
+      "tags": [
+        "ce_output",
+        "ranged",
+        "incarnated"
+      ],
+      "peak_version": "Sendai Colony (vs Yuta)",
+      "techniques": [
+        "Granite Blast (massive cursed energy beam)"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": {
+        "key": "granite_blast",
+        "description": "Once per run: +8.",
+        "params": {
+          "bonus": 8,
+          "uses": 1
+        }
+      },
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "Edo-era sorcerer with the biggest cursed energy output of his time. Talks in food metaphors.",
+      "notes": "Gray: a Culling Game player, not a schemer. Locked to villains.",
+      "tier": "A"
+    },
+    {
+      "id": "uro",
+      "name": "Takako Uro",
+      "side": "villain",
+      "power": 80,
+      "stats": {
+        "ce": 80,
+        "phy": 75,
+        "tec": 84,
+        "dom": 60
+      },
+      "role": "controller",
+      "draft_groups": [
+        "culling_game_villains"
+      ],
+      "tags": [
+        "spatial_manipulation",
+        "incomplete_domain",
+        "incarnated"
+      ],
+      "peak_version": "Sendai Colony (vs Yuta)",
+      "techniques": [
+        "Sky Manipulation",
+        "Thin Ice Breaker"
+      ],
+      "domain": {
+        "name": "Unnamed (did not fully manifest)",
+        "type": "incomplete",
+        "sure_hit": "Never completed on panel",
+        "canon_status": "canon"
+      },
+      "special": {
+        "key": "deflect",
+        "description": "Once per run, cancels the opponent's counter bonus for one round.",
+        "params": {
+          "uses": 1
+        }
+      },
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "Heian assassin captain who treats the sky like fabric.",
+      "notes": "Gray: Culling Game player. Locked to villains.",
+      "tier": "A"
+    },
+    {
+      "id": "reggie",
+      "name": "Reggie Star",
+      "side": "villain",
+      "power": 62,
+      "stats": {
+        "ce": 65,
+        "phy": 62,
+        "tec": 66,
+        "dom": 0
+      },
+      "role": "controller",
+      "draft_groups": [
+        "culling_game_villains"
+      ],
+      "tags": [
+        "construction"
+      ],
+      "peak_version": "Tokyo Colony No. 1",
+      "techniques": [
+        "Contract Recreation (receipts become objects)"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": null,
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "Turns receipts into whatever he bought. Surprisingly nasty.",
+      "notes": "",
+      "tier": "C"
+    },
+    {
+      "id": "haruta",
+      "name": "Haruta Shigemo",
+      "side": "villain",
+      "power": 45,
+      "stats": {
+        "ce": 50,
+        "phy": 50,
+        "tec": 45,
+        "dom": 0
+      },
+      "role": "assassin",
+      "draft_groups": [
+        "culling_game_villains"
+      ],
+      "tags": [
+        "luck"
+      ],
+      "peak_version": "Shibuya",
+      "techniques": [
+        "Miracle luck (survives near-misses)"
+      ],
+      "domain": {
+        "name": null,
+        "type": "none",
+        "sure_hit": null,
+        "canon_status": null
+      },
+      "special": {
+        "key": "luck",
+        "description": "15% chance to avoid falling each time.",
+        "params": {
+          "chance": 0.15
+        }
+      },
+      "rarity": "common",
+      "canon_grade": "-",
+      "story_hook": "Somehow keeps surviving. The meme pick.",
+      "notes": "",
+      "tier": "D"
+    }
+  ],
+  "draft_groups": {
+    "tokyo_high": {
+      "side": "hero",
+      "label": "Tokyo Jujutsu High"
+    },
+    "kyoto_school": {
+      "side": "hero",
+      "label": "Kyoto Jujutsu High"
+    },
+    "grade_1_adults": {
+      "side": "hero",
+      "label": "Grade 1 & Veterans"
+    },
+    "culling_game_heroes": {
+      "side": "hero",
+      "label": "Culling Game Allies"
+    },
+    "special_grades": {
+      "side": "hero",
+      "label": "Special Grades"
+    },
+    "disaster_curses": {
+      "side": "villain",
+      "label": "Disaster Curses"
+    },
+    "kenjaku_circle": {
+      "side": "villain",
+      "label": "Kenjaku's Circle"
+    },
+    "killers_and_curse_users": {
+      "side": "villain",
+      "label": "Sorcerer Killers & Curse Users"
+    },
+    "culling_game_villains": {
+      "side": "villain",
+      "label": "Culling Game Threats"
+    },
+    "legendary": {
+      "side": "villain",
+      "label": "Legendary"
+    }
+  },
+  "counters": [
+    {
+      "attacker_tag": "soul_strike",
+      "defender_tag": "soul_manipulation",
+      "bonus": 6,
+      "upset_chance": 0.1,
+      "canon_status": "canon",
+      "explanation": "Yuji can hit Mahito's real soul (Shibuya)."
+    },
+    {
+      "attacker_tag": "soul_damage",
+      "defender_tag": "soul_manipulation",
+      "bonus": 8,
+      "upset_chance": 0.06,
+      "canon_status": "canon",
+      "explanation": "Nobara's Resonance reached Mahito's true body through a clone."
+    },
+    {
+      "attacker_tag": "soul_strike",
+      "defender_tag": "incarnated",
+      "bonus": 3,
+      "upset_chance": 0.0,
+      "canon_status": "canon",
+      "explanation": "Yuji's soul Dismantle targets the boundary between souls (ch. 264-268)."
+    },
+    {
+      "attacker_tag": "resonance",
+      "defender_tag": "incarnated",
+      "bonus": 3,
+      "upset_chance": 0.05,
+      "canon_status": "canon",
+      "explanation": "Nobara hit Sukuna through his last finger (ch. 267). Requires a body part."
+    },
+    {
+      "attacker_tag": "resonance",
+      "defender_tag": "infinity",
+      "bonus": 0,
+      "upset_chance": 0.04,
+      "canon_status": "fan_theory",
+      "explanation": "Resonance bypassing Infinity is fan speculation, never shown."
+    },
+    {
+      "attacker_tag": "tech_nullify",
+      "defender_tag": "infinity",
+      "bonus": 4,
+      "upset_chance": 0.08,
+      "canon_status": "canon",
+      "explanation": "Inverted Spear of Heaven cut through Infinity (2006)."
+    },
+    {
+      "attacker_tag": "world_cutting_slash",
+      "defender_tag": "infinity",
+      "bonus": 3,
+      "upset_chance": 0.0,
+      "canon_status": "canon",
+      "explanation": "World-Cutting Slash cuts space itself and ended the Gojo fight."
+    },
+    {
+      "attacker_tag": "adaptation",
+      "defender_tag": "infinity",
+      "bonus": 4,
+      "upset_chance": 0.0,
+      "canon_status": "canon",
+      "explanation": "Mahoraga adapted to Infinity and showed Sukuna the way through."
+    },
+    {
+      "attacker_tag": "domain_amplification",
+      "defender_tag": "infinity",
+      "bonus": 3,
+      "upset_chance": 0.0,
+      "canon_status": "canon",
+      "explanation": "Domain Amplification neutralizes Infinity on contact."
+    },
+    {
+      "attacker_tag": "black_rope",
+      "defender_tag": "infinity",
+      "bonus": 4,
+      "upset_chance": 0.05,
+      "canon_status": "inferred",
+      "explanation": "Black Rope unravels techniques; Miguel survived fighting Gojo."
+    },
+    {
+      "attacker_tag": "extinguish",
+      "defender_tag": "incarnated",
+      "bonus": 8,
+      "upset_chance": 0.1,
+      "canon_status": "canon",
+      "explanation": "Jacob's Ladder nearly purged Sukuna from Megumi (ch. 213)."
+    },
+    {
+      "attacker_tag": "extinguish",
+      "defender_tag": "cursed_spirit",
+      "bonus": 8,
+      "upset_chance": 0.08,
+      "canon_status": "canon",
+      "explanation": "Any curse bathed in Jacob's Ladder is extinguished."
+    },
+    {
+      "attacker_tag": "extinguish",
+      "defender_tag": "sure_hit_domain",
+      "bonus": 6,
+      "upset_chance": 0.0,
+      "canon_status": "canon",
+      "explanation": "Technique Extinguishment erases techniques and barriers."
+    },
+    {
+      "attacker_tag": "confiscation",
+      "defender_tag": "sure_hit_domain",
+      "bonus": 6,
+      "upset_chance": 0.0,
+      "canon_status": "inferred",
+      "explanation": "Confiscation strips a technique-reliant fighter's technique."
+    },
+    {
+      "attacker_tag": "confiscation",
+      "defender_tag": "cursed_tools",
+      "bonus": 3,
+      "upset_chance": 0.0,
+      "canon_status": "canon",
+      "explanation": "Confiscation takes a cursed tool first (Sukuna lost Kamutoke, ch. 245)."
+    },
+    {
+      "attacker_tag": "death_penalty",
+      "defender_tag": "incarnated",
+      "bonus": 0,
+      "upset_chance": 0.06,
+      "canon_status": "canon",
+      "explanation": "Executioner's Sword is a sure-kill; Sukuna had to cut off his own hand (ch. 247)."
+    },
+    {
+      "attacker_tag": "death_penalty",
+      "defender_tag": "cursed_spirit",
+      "bonus": 0,
+      "upset_chance": 0.05,
+      "canon_status": "inferred",
+      "explanation": "Same sword, applied to other guilty villains."
+    },
+    {
+      "attacker_tag": "zero_ce",
+      "defender_tag": "six_eyes",
+      "bonus": 2,
+      "upset_chance": 0.02,
+      "canon_status": "canon",
+      "explanation": "Toji ambushed Gojo because he's invisible to cursed energy sensing."
+    },
+    {
+      "attacker_tag": "curse_manipulation",
+      "defender_tag": "cursed_spirit",
+      "bonus": 4,
+      "upset_chance": 0.0,
+      "canon_status": "canon",
+      "explanation": "Geto/Kenjaku absorb defeated curses (Kenjaku took Mahito)."
+    },
+    {
+      "attacker_tag": "comedian",
+      "defender_tag": "strategist",
+      "bonus": 0,
+      "upset_chance": 0.0,
+      "canon_status": "canon",
+      "explanation": "Takaba stalled Kenjaku long enough for Yuta's ambush (ch. 243). Grants a free stall, see special."
+    },
+    {
+      "attacker_tag": "cursed_speech",
+      "defender_tag": "zero_ce",
+      "bonus": 4,
+      "upset_chance": 0.0,
+      "canon_status": "fan_theory",
+      "explanation": "Cursed Speech on a zero-CE target is a popular theory, never shown."
+    },
+    {
+      "attacker_tag": "flame",
+      "defender_tag": "ice",
+      "bonus": 3,
+      "upset_chance": 0.0,
+      "canon_status": "fan_theory",
+      "explanation": "Elemental flavor only."
+    },
+    {
+      "attacker_tag": "flame",
+      "defender_tag": "plant",
+      "bonus": 3,
+      "upset_chance": 0.0,
+      "canon_status": "fan_theory",
+      "explanation": "Elemental flavor only."
+    }
+  ],
+  "domain_rules": [
+    {
+      "rule": "domain_pressure",
+      "canon_status": "canon",
+      "text": "If the opponent has a sure-hit domain and the defending side has no domain, anti-domain, or zero-CE fighter, the opponent gains DOM/10."
+    },
+    {
+      "rule": "anti_domain",
+      "canon_status": "canon",
+      "text": "Simple Domain / Hollow Wicker Basket users cut that bonus in half. Kusakabe (strong_anti_domain) cancels it fully."
+    },
+    {
+      "rule": "zero_ce_immunity",
+      "canon_status": "canon",
+      "text": "Zero-CE fighters cancel the bonus from CLOSED domains (Maki vs Naoya's Time Cell Moon Palace)."
+    },
+    {
+      "rule": "open_domain_exception",
+      "canon_status": "inferred",
+      "text": "Open domains (Sukuna, Kenjaku) still hit zero-CE fighters; Malevolent Shrine cuts everything in range."
+    },
+    {
+      "rule": "domain_clash",
+      "canon_status": "canon",
+      "text": "If both sides have sure-hit domains, the higher DOM side gets +2 (domain refinement decides clashes)."
+    }
+  ],
+  "synergies": [
+    {
+      "id": "first_years",
+      "label": "Gojo's First-Years",
+      "members": [
+        "yuji",
+        "megumi",
+        "nobara"
+      ],
+      "required": 3,
+      "bonus": 4,
+      "must_include": null,
+      "scope": "gauntlet",
+      "canon_status": "canon",
+      "explanation": "The original trio."
+    },
+    {
+      "id": "second_years",
+      "label": "The Second-Years",
+      "members": [
+        "maki",
+        "panda",
+        "inumaki",
+        "yuta"
+      ],
+      "required": 3,
+      "bonus": 5,
+      "must_include": null,
+      "scope": "gauntlet",
+      "canon_status": "canon",
+      "explanation": "Maki, Panda, Inumaki, and Yuta's class."
+    },
+    {
+      "id": "best_friends",
+      "label": "Brothers (Best Friends)",
+      "members": [
+        "yuji",
+        "todo"
+      ],
+      "required": 2,
+      "bonus": 4,
+      "must_include": null,
+      "scope": "gauntlet",
+      "canon_status": "canon",
+      "explanation": "Todo's imaginary friendship, very real Boogie Woogie."
+    },
+    {
+      "id": "big_brother",
+      "label": "Big Brother",
+      "members": [
+        "yuji",
+        "choso"
+      ],
+      "required": 2,
+      "bonus": 4,
+      "must_include": null,
+      "scope": "gauntlet",
+      "canon_status": "canon",
+      "explanation": "Choso adopts Yuji as his little brother."
+    },
+    {
+      "id": "mentor",
+      "label": "Mentor & Student",
+      "members": [
+        "nanami",
+        "yuji"
+      ],
+      "required": 2,
+      "bonus": 3,
+      "must_include": null,
+      "scope": "gauntlet",
+      "canon_status": "canon",
+      "explanation": "Nanami's last words go to Yuji."
+    },
+    {
+      "id": "gamblers",
+      "label": "Fever Time",
+      "members": [
+        "hakari",
+        "kirara"
+      ],
+      "required": 2,
+      "bonus": 4,
+      "must_include": null,
+      "scope": "gauntlet",
+      "canon_status": "canon",
+      "explanation": "Hakari and Kirara, partners since the start."
+    },
+    {
+      "id": "zenin_twins",
+      "label": "Zenin Twins",
+      "members": [
+        "maki",
+        "mai"
+      ],
+      "required": 2,
+      "bonus": 4,
+      "must_include": null,
+      "scope": "gauntlet",
+      "canon_status": "canon",
+      "explanation": "Mai's sacrifice completed Maki's restriction."
+    },
+    {
+      "id": "verdict",
+      "label": "The Verdict Plan",
+      "members": [
+        "higuruma",
+        "yuji"
+      ],
+      "required": 2,
+      "bonus": 4,
+      "must_include": null,
+      "scope": "gauntlet",
+      "canon_status": "canon",
+      "explanation": "Their plan to put Sukuna on trial (ch. 244-245)."
+    },
+    {
+      "id": "angel_and_megumi",
+      "label": "Saved Once",
+      "members": [
+        "hana",
+        "megumi"
+      ],
+      "required": 2,
+      "bonus": 3,
+      "must_include": null,
+      "scope": "gauntlet",
+      "canon_status": "canon",
+      "explanation": "Megumi saved Hana as a kid; she fights for him."
+    },
+    {
+      "id": "kyoto_squad",
+      "label": "Kyoto Squad",
+      "members": [
+        "todo",
+        "kamo",
+        "mechamaru",
+        "miwa",
+        "momo",
+        "mai"
+      ],
+      "required": 3,
+      "bonus": 4,
+      "must_include": null,
+      "scope": "gauntlet",
+      "canon_status": "canon",
+      "explanation": "Kyoto Goodwill team."
+    },
+    {
+      "id": "shinjuku_strike",
+      "label": "Shinjuku Strike Team",
+      "members": [
+        "yuji",
+        "higuruma",
+        "todo",
+        "kusakabe",
+        "maki",
+        "yuta",
+        "kashimo",
+        "hana",
+        "choso",
+        "nobara",
+        "mei_mei",
+        "ino",
+        "hakari"
+      ],
+      "required": 3,
+      "bonus": 3,
+      "must_include": null,
+      "scope": "gauntlet",
+      "canon_status": "canon",
+      "explanation": "Anyone who fought in the final battle."
+    },
+    {
+      "id": "teacher",
+      "label": "Teacher & Students",
+      "members": [
+        "gojo",
+        "yuji",
+        "megumi",
+        "nobara",
+        "yuta",
+        "maki",
+        "panda",
+        "inumaki"
+      ],
+      "required": 2,
+      "bonus": 4,
+      "must_include": "gojo",
+      "scope": "gauntlet",
+      "canon_status": "canon",
+      "explanation": "Gojo plus any of his students."
+    },
+    {
+      "id": "disasters",
+      "label": "Disaster Curses",
+      "members": [
+        "mahito",
+        "jogo",
+        "hanami",
+        "dagon"
+      ],
+      "required": 3,
+      "bonus": 5,
+      "must_include": null,
+      "scope": "gauntlet",
+      "canon_status": "canon",
+      "explanation": "The Shibuya curse group."
+    },
+    {
+      "id": "death_paintings",
+      "label": "Rot Technique: Decay",
+      "members": [
+        "eso",
+        "kechizu"
+      ],
+      "required": 2,
+      "bonus": 5,
+      "must_include": null,
+      "scope": "gauntlet",
+      "canon_status": "canon",
+      "explanation": "The brothers' combined technique."
+    },
+    {
+      "id": "masterminds",
+      "label": "The Shibuya Plan",
+      "members": [
+        "kenjaku",
+        "mahito"
+      ],
+      "required": 2,
+      "bonus": 4,
+      "must_include": null,
+      "scope": "gauntlet",
+      "canon_status": "canon",
+      "explanation": "Kenjaku and Mahito planned Shibuya together."
+    },
+    {
+      "id": "loyalist",
+      "label": "The King's Cook",
+      "members": [
+        "sukuna",
+        "uraume"
+      ],
+      "required": 2,
+      "bonus": 5,
+      "must_include": null,
+      "scope": "gauntlet",
+      "canon_status": "canon",
+      "explanation": "Uraume has served Sukuna since the Heian era."
+    },
+    {
+      "id": "night_parade",
+      "label": "Night Parade",
+      "members": [
+        "geto",
+        "miguel"
+      ],
+      "required": 2,
+      "bonus": 4,
+      "must_include": null,
+      "scope": "gauntlet",
+      "canon_status": "canon",
+      "explanation": "Geto and his most loyal fighter."
+    },
+    {
+      "id": "zenin_elders",
+      "label": "Zenin Hei",
+      "members": [
+        "naoya",
+        "ogi"
+      ],
+      "required": 2,
+      "bonus": 3,
+      "must_include": null,
+      "scope": "gauntlet",
+      "canon_status": "canon",
+      "explanation": "Zenin clan leadership."
+    },
+    {
+      "id": "heian_revenants",
+      "label": "Heian Revenants",
+      "members": [
+        "uro",
+        "yorozu",
+        "sukuna",
+        "uraume",
+        "kenjaku"
+      ],
+      "required": 2,
+      "bonus": 3,
+      "must_include": null,
+      "scope": "gauntlet",
+      "canon_status": "canon",
+      "explanation": "Sorcerers from a thousand years ago."
+    },
+    {
+      "id": "sukuna_devotee",
+      "label": "Lovesick",
+      "members": [
+        "yorozu",
+        "sukuna"
+      ],
+      "required": 2,
+      "bonus": 3,
+      "must_include": null,
+      "scope": "gauntlet",
+      "canon_status": "canon",
+      "explanation": "Yorozu's obsession with Sukuna."
+    },
+    {
+      "id": "strongest_duo",
+      "label": "The Strongest Two",
+      "members": [
+        "gojo",
+        "geto"
+      ],
+      "required": 2,
+      "bonus": 8,
+      "must_include": null,
+      "scope": "freestyle",
+      "canon_status": "canon",
+      "explanation": "Best friends in 2006."
+    },
+    {
+      "id": "fushiguro_family",
+      "label": "Father and Son",
+      "members": [
+        "toji",
+        "megumi"
+      ],
+      "required": 2,
+      "bonus": 5,
+      "must_include": null,
+      "scope": "freestyle",
+      "canon_status": "canon",
+      "explanation": "Toji recognized Megumi and chose not to hurt him."
+    },
+    {
+      "id": "brothers_reunited",
+      "label": "Death Painting Reunion",
+      "members": [
+        "choso",
+        "eso",
+        "kechizu"
+      ],
+      "required": 3,
+      "bonus": 6,
+      "must_include": null,
+      "scope": "freestyle",
+      "canon_status": "canon",
+      "explanation": "All three brothers together."
+    },
+    {
+      "id": "zenin_blood",
+      "label": "Zenin Blood",
+      "members": [
+        "maki",
+        "mai",
+        "naoya",
+        "naobito",
+        "toji",
+        "ogi",
+        "megumi"
+      ],
+      "required": 3,
+      "bonus": 3,
+      "must_include": null,
+      "scope": "freestyle",
+      "canon_status": "canon",
+      "explanation": "Everyone with Zenin blood."
+    },
+    {
+      "id": "rivals_strongest",
+      "label": "Uneasy Alliance",
+      "members": [
+        "gojo",
+        "sukuna"
+      ],
+      "required": 2,
+      "bonus": -4,
+      "must_include": null,
+      "scope": "freestyle",
+      "canon_status": "game_mechanic",
+      "explanation": "Rivals on one team: power penalty, HYPE stamp on the card."
+    },
+    {
+      "id": "sworn_enemies",
+      "label": "Sworn Enemies",
+      "members": [
+        "yuji",
+        "mahito"
+      ],
+      "required": 2,
+      "bonus": -6,
+      "must_include": null,
+      "scope": "freestyle",
+      "canon_status": "game_mechanic",
+      "explanation": "They will not cooperate."
+    },
+    {
+      "id": "vessel_and_king",
+      "label": "Vessel & King",
+      "members": [
+        "yuji",
+        "sukuna"
+      ],
+      "required": 2,
+      "bonus": -5,
+      "must_include": null,
+      "scope": "freestyle",
+      "canon_status": "game_mechanic",
+      "explanation": "Sukuna despises his vessel."
+    }
+  ],
+  "ladders": {
+    "hero": {
+      "label": "Hero Gauntlet",
+      "final_boss": "sukuna",
+      "rungs": [
+        "hanami",
+        "jogo",
+        "mahito",
+        "kenjaku",
+        "sukuna"
+      ],
+      "rung_bonus": [
+        8,
+        11,
+        14,
+        17,
+        18
+      ]
+    },
+    "villain": {
+      "label": "Villain Gauntlet",
+      "final_boss": "gojo",
+      "rungs": [
+        "nanami",
+        "todo",
+        "maki",
+        "yuta",
+        "gojo"
+      ],
+      "rung_bonus": [
+        8,
+        11,
+        14,
+        17,
+        27
+      ]
+    }
+  },
+  "rank_titles": {
+    "hero": [
+      "Grade 4",
+      "Grade 3",
+      "Grade 2",
+      "Grade 1",
+      "Special Grade",
+      "The Strongest"
+    ],
+    "villain": [
+      "Grade 4 Curse",
+      "Grade 2 Curse",
+      "Grade 1 Curse",
+      "Disaster",
+      "Special Grade Curse",
+      "King of Curses"
+    ]
+  },
+  "rules": {
+    "draft_rounds": 3,
+    "options_per_round": 4,
+    "rerolls_per_run": 1,
+    "legendary_roll_chance": 0.04,
+    "team_formula": "top_power + others_coef * sum(other_power * gap_factor) + synergy + counters + domain + specials + rng",
+    "others_coef": 0.15,
+    "gap_window": 25,
+    "gap_factor": "clamp((member_power - (enemy_top_power - gap_window)) / gap_window, 0, 1)",
+    "synergy_cap": 8,
+    "counter_cap": 8,
+    "domain_clash_bonus": 2,
+    "rng_range": 12,
+    "underdog_upset_chance": 0.03,
+    "underdog_gap": 15,
+    "black_flash_chance": 0.12,
+    "black_flash_bonus": 6,
+    "narrow_win_margin": 6,
+    "narrow_win_fall_chance": 0.5,
+    "loss_opponent_weaken": 2,
+    "fall_weight": "(110 - power), halved for rct, x special fall_weight",
+    "ai_role": "Narrates the result it is given. Never decides outcomes."
+  },
+  "progression": {
+    "type": "cosmetic",
+    "note": "Mastery levels 1-10 per character, earned from runs. Unlocks card frames and titles only, never power, so daily runs stay fair.",
+    "xp_per_round_cleared": 10,
+    "xp_full_clear_bonus": 50,
+    "levels": [
+      0,
+      50,
+      120,
+      220,
+      350,
+      520,
+      740,
+      1000,
+      1300,
+      1700
+    ]
+  }
+}
