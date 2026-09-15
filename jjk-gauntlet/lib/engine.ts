@@ -24,6 +24,9 @@
  *   "while at least 2 members are alive" implies.
  * - `loss_opponent_weaken` accumulates on the rung being retried and resets
  *   when the team advances.
+ * - An upset is one opening, not one per counter: the losing side rolls once,
+ *   at the best chance available to it, whether that comes from a fired
+ *   counter's `upset_chance` or from the flat `underdog_upset_chance`.
  */
 
 import { RULES, character, synergiesForMode, DB } from './data.ts';
@@ -761,17 +764,24 @@ export function resolveRound(
 
   // --- Upsets ---------------------------------------------------------------
   // Rolled last, so an upset is always the thing that decided the round: a side
-  // flagged with the upset won it, full stop.
-  // Each fired counter is its own chance to end the fight early, plus the flat
-  // underdog roll once the gap reaches underdog_gap.
+  // flagged with the upset won it, full stop. One roll, at the best chance the
+  // losing side has — a fired counter's upset_chance, or the flat
+  // underdog_upset_chance once the gap reaches underdog_gap.
   const rollUpsets = (breakdown: Breakdown, deficit: number): string | null => {
+    let bestChance = 0;
+    let bestReason = '';
     for (const c of breakdown.firedCounters) {
-      if (c.upset_chance > 0 && rng.chance(c.upset_chance)) return `UPSET — ${c.explanation}`;
+      if (c.upset_chance > bestChance) {
+        bestChance = c.upset_chance;
+        bestReason = c.explanation;
+      }
     }
-    if (deficit >= RULES.underdog_gap && rng.chance(RULES.underdog_upset_chance)) {
-      return 'UPSET — the underdog finds the one opening that exists.';
+    if (deficit >= RULES.underdog_gap && RULES.underdog_upset_chance > bestChance) {
+      bestChance = RULES.underdog_upset_chance;
+      bestReason = 'the underdog finds the one opening that exists.';
     }
-    return null;
+    if (bestChance <= 0) return null;
+    return rng.chance(bestChance) ? `UPSET — ${bestReason}` : null;
   };
 
   if (!won) {

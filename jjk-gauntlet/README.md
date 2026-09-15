@@ -64,8 +64,9 @@ character's own `fall_weight`). Then:
   −15 to the opponent for that round. It can turn the round around. He falls
   either way.
 - **Upsets** are rolled last, so an upset is always the thing that decided the
-  round. Each fired counter carries its own `upset_chance`, plus a flat
-  `underdog_upset_chance` once the gap reaches `underdog_gap`.
+  round. One roll, at the best chance the losing side has — a fired counter's
+  `upset_chance`, or the flat `underdog_upset_chance` once the gap reaches
+  `underdog_gap`.
 
 A run is a pure function of `(seed, side, team)`. The same seed always replays
 the same run — that is what makes a shared link honest, and what lets the tests
@@ -73,7 +74,7 @@ assert rates instead of vibes.
 
 ## Readings the database leaves open
 
-The DB states some rules in prose. Three readings were settled by the
+The DB states some rules in prose. Four readings were settled by the
 calibration rates below, and each is commented where it lives in
 `lib/engine.ts`:
 
@@ -89,6 +90,11 @@ calibration rates below, and each is commented where it lives in
 3. **Resonance needs a body part before it counters an incarnation.** The
    counter's own explanation says so — Nobara reached Sukuna through a finger
    she already had — so it fires on a retry, never on the opening exchange.
+   Without the condition the trio clears 8.8% instead of 7%.
+4. **An upset is one opening, not one per counter.** The losing side rolls
+   once, at the best `upset_chance` among its fired counters (or the flat
+   `underdog_upset_chance`). Rolling each counter independently stacks two
+   chances for Toji and puts him at 35% against Gojo rather than ~32%.
 
 Two smaller ones: `gauntlet`-scoped synergies apply in every mode while
 `freestyle`-scoped ones need mixed sides a draft cannot produce, and
@@ -102,9 +108,9 @@ rather than on luck — every run in it is seeded.
 
 | Matchup | Target | Engine |
 | --- | --- | --- |
-| Yuji / Megumi / Nobara full clear | ~7% | 8.8% |
+| Yuji / Megumi / Nobara full clear | ~7% | 8.7% |
 | Yuji / Yuta / Maki full clear | ~23% | 22.2% |
-| Toji beats Gojo | ~32% | 35.0% |
+| Toji beats Gojo | ~32% | 33.2% |
 
 ## Where the AI sits
 
