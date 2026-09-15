@@ -1055,19 +1055,20 @@ export interface FreestyleResult {
 
 export function runFreestyle(seed: string, aIds: string[], bIds: string[]): FreestyleResult {
   const rng = makeRng(`${seed}:freestyle:${aIds.join(',')}|${bIds.join(',')}`);
+  const label = (ids: string[]) => ids.map((id) => character(id).name).join(' & ');
   const a: TeamState = {
     side: 'hero',
     fighters: aIds.map(makeFighter),
     flatBonus: 0,
     powerPenalty: 0,
-    label: 'Side A',
+    label: label(aIds),
   };
   const b: TeamState = {
     side: 'villain',
     fighters: bIds.map(makeFighter),
     flatBonus: 0,
     powerPenalty: 0,
-    label: 'Side B',
+    label: label(bIds),
   };
 
   const rounds: RoundResult[] = [];
