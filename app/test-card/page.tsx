@@ -1,3 +1,5 @@
+import { notFound } from 'next/navigation';
+
 import { QuestCard } from '@/components/QuestCard';
 import type { QuestSummary } from '@/lib/types';
 
@@ -51,6 +53,9 @@ const AR_SAMPLES: QuestSummary[] = [
 ];
 
 export default function TestCardPage() {
+  // A component bench is a development tool, not a page to ship.
+  if (process.env.NODE_ENV === 'production') notFound();
+
   return (
     <div className="min-h-screen bg-base px-5 py-10 md:px-10">
       <header className="mx-auto mb-8 max-w-[1100px]">

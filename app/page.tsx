@@ -30,6 +30,7 @@ export default async function MapPage({
     process.env.NODE_ENV !== 'production' ||
     process.env.ENABLE_INACTIVE_TOGGLE === '1';
 
+  const isDev = process.env.NODE_ENV !== 'production';
   let quests: QuestSummary[] = [];
   let error: string | null = null;
 
@@ -41,7 +42,11 @@ export default async function MapPage({
   }
 
   if (error) {
-    return <SetupNotice message={error} />;
+    // The cause is for the developer's terminal, not the visitor's screen: a pg
+    // error carries socket paths and host names. Supabase's free tier pauses
+    // after 7 idle days, so this path WILL be hit in production.
+    console.error('[map] could not load quests:', error);
+    return <SetupNotice detail={isDev ? error : null} />;
   }
 
   return (
@@ -54,7 +59,7 @@ export default async function MapPage({
   );
 }
 
-function SetupNotice({ message }: { message: string }) {
+function SetupNotice({ detail }: { detail: string | null }) {
   return (
     <main className="flex min-h-dvh items-center justify-center bg-base px-6">
       <div className="max-w-[52ch] border border-sand bg-base px-5 py-5">
@@ -62,18 +67,22 @@ function SetupNotice({ message }: { message: string }) {
           Setup
         </p>
         <h1 className="font-display mt-1.5 text-[28px] leading-[1.15] text-ink">
-          No database
+          Map unavailable
         </h1>
         <hr className="mt-3.5 border-0 border-t border-sand" />
         <p className="font-body mt-3 text-[14px] leading-[1.65] text-ink">
-          The map reads quests from Postgres. Start one and seed it:
+          The quest map cannot be loaded right now. Please try again shortly.
         </p>
-        <pre className="font-body mt-3 overflow-x-auto border border-sand px-3 py-2.5 text-[12px] leading-[1.7] text-ink">
+        {detail !== null && (
+          <>
+            <pre className="font-body mt-3 overflow-x-auto border border-sand px-3 py-2.5 text-[12px] leading-[1.7] text-ink">
 {`npm run db:local      # prints DATABASE_URL
 export DATABASE_URL=…
 npm run seed`}
-        </pre>
-        <p className="font-body mt-3 text-[12px] leading-[1.6] text-sea">{message}</p>
+            </pre>
+            <p className="font-body mt-3 text-[12px] leading-[1.6] text-sea">{detail}</p>
+          </>
+        )}
       </div>
     </main>
   );

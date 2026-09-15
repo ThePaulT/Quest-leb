@@ -110,7 +110,10 @@ export function QuestMap({
   const [region, setRegion] = useState<QuestRegion | null>(null);
   const [difficulty, setDifficulty] = useState<number | null>(null);
   const [showInactive, setShowInactive] = useState(false);
-  const [selected, setSelected] = useState<QuestSummary | null>(null);
+  // The slug is the state; the quest itself is derived from the visible set.
+  // That way a filter (or the inactive toggle) that hides the open quest closes
+  // the sheet on its own, with no effect writing state back.
+  const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
 
   const copy = COPY[locale];
   const dir = locale === 'ar' ? 'rtl' : 'ltr';
@@ -124,6 +127,11 @@ export function QuestMap({
         return quest.lat != null && quest.lng != null;
       }),
     [quests, region, difficulty, showInactive],
+  );
+
+  const selected = useMemo(
+    () => visible.find((quest) => quest.slug === selectedSlug) ?? null,
+    [visible, selectedSlug],
   );
 
   // Create the map once.
@@ -164,7 +172,7 @@ export function QuestMap({
   }, []);
 
   const openQuest = useCallback((quest: QuestSummary) => {
-    setSelected(quest);
+    setSelectedSlug(quest.slug);
     map.current?.easeTo({
       center: [quest.lng!, quest.lat!],
       // Leave room for the sheet without hiding the pin behind it.
@@ -279,7 +287,7 @@ export function QuestMap({
                   className="h-[14px] w-[14px] cursor-pointer accent-[#0F4C3A]"
                 />
                 <span className="font-body text-[12px] text-ink">{copy.showInactive}</span>
-                <span className="font-body text-[10px] uppercase tracking-[0.14em] text-sand">
+                <span className="font-body text-[10px] uppercase tracking-[0.14em] text-sea">
                   {copy.devOnly}
                 </span>
               </label>
@@ -310,7 +318,7 @@ export function QuestMap({
       )}
 
         {selected && (
-          <BottomSheet locale={locale} closeLabel={copy.close} onClose={() => setSelected(null)}>
+          <BottomSheet locale={locale} closeLabel={copy.close} onClose={() => setSelectedSlug(null)}>
             <QuestCard quest={selected} locale={locale} compact />
           </BottomSheet>
         )}
@@ -334,7 +342,8 @@ function ChipRow<T extends string | number>({
 }) {
   return (
     <div className="flex flex-wrap items-center gap-1.5">
-      <span className="font-body me-1 text-[10px] uppercase tracking-[0.16em] text-sand">
+      {/* sea, not sand: sand on base is 1.41:1 and unreadable as text. */}
+      <span className="font-body me-1 text-[10px] uppercase tracking-[0.16em] text-sea">
         {label}
       </span>
       <Chip label={allLabel} selected={active === null} onClick={() => onSelect(null)} />

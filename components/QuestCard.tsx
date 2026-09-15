@@ -99,8 +99,9 @@ export function QuestCard({ quest, locale, completed = false, compact = false }:
         <div className="mt-3 flex items-center justify-between gap-4">
           <DifficultyMarks value={difficulty} locale={locale} />
           <div className="flex items-center gap-3">
+            {/* sea, not sand: sand on base is 1.41:1 and unreadable as text. */}
             {inactive && (
-              <span className="font-body text-[11px] uppercase tracking-[0.12em] text-sand">
+              <span className="font-body text-[11px] uppercase tracking-[0.12em] text-sea">
                 {INACTIVE[locale]}
               </span>
             )}
