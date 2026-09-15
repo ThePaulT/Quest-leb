@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { character } from '@/lib/data.ts';
 import { runGauntlet } from '@/lib/engine.ts';
-import { fallbackNarration } from '@/lib/narrate.ts';
+import { cleanStory, fallbackNarration } from '@/lib/narrate.ts';
 import { bestStoryLine, cardFacts, shareText } from '@/lib/share.ts';
 import type { SavedRun } from '@/lib/share.ts';
 
@@ -82,5 +82,25 @@ describe('share card', () => {
     const text = shareText(run);
     expect(text).toContain(character(run.teamIds[0]).name);
     expect(text).toContain(run.result.fullClear ? 'Full clear' : run.result.record);
+  });
+});
+
+describe('story cleanup', () => {
+  it('strips the markdown a model reaches for despite being told not to', () => {
+    expect(cleanStory('He fires **Piercing Blood** through the guard.')).toBe(
+      'He fires Piercing Blood through the guard.',
+    );
+    expect(cleanStory('Hakari’s *Idle Death Gamble* collapses.')).toBe(
+      'Hakari’s Idle Death Gamble collapses.',
+    );
+    expect(cleanStory('## Round 1\n- Yuji wins.')).toBe('Round 1 Yuji wins.');
+    expect(cleanStory('Line one.\n\nLine two.')).toBe('Line one. Line two.');
+  });
+
+  it('leaves ordinary prose alone', () => {
+    const prose = "Nobara's Resonance reaches Mahito's true body, and he knows it.";
+    expect(cleanStory(prose)).toBe(prose);
+    // Snake_case tags and mid-word underscores are not emphasis.
+    expect(cleanStory('The soul_strike lands.')).toBe('The soul_strike lands.');
   });
 });

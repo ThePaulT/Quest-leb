@@ -27,7 +27,9 @@ contradict it: if the brief says a character fell, they fell; if it says the
 team won, they won. Never invent a different winner, a survival, or a
 "but then...". Never write a cliffhanger that reverses the result.
 
-Write 3-4 sentences of tight, present-tense manga narration. Use the
+Write 3-4 sentences of tight, present-tense manga narration. Plain prose only:
+no markdown, no asterisks or underscores around words, no quotation marks
+around technique names. Use the
 techniques and the story hooks you are given — they are the material. Name the
 characters. Keep it concrete and physical: what the technique does, where it
 lands, what it costs. No emoji, no headings, no bullet points, no meta
@@ -183,11 +185,24 @@ export function activeProvider(): NarrationSource {
   return 'fallback';
 }
 
+/** Models reach for markdown emphasis even when told not to, and the UI prints
+ *  the story as plain text, so the asterisks would show up literally. */
+export function cleanStory(text: string): string {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(/(?<!\w)[*_](\S(?:.*?\S)?)[*_](?!\w)/g, '$1')
+    .replace(/^\s*#{1,6}\s+/gm, '')
+    .replace(/^\s*[-–—•]\s+/gm, '')
+    .replace(/\s*\n\s*/g, ' ')
+    .trim();
+}
+
 const GEMINI_HOST = 'https://generativelanguage.googleapis.com/v1beta/models';
 
 /** Google AI Studio's free tier covers the Flash models. Override with
- *  GEMINI_MODEL if Google renames or retires this one. */
-const DEFAULT_GEMINI_MODEL = 'gemini-2.5-flash';
+ *  GEMINI_MODEL if Google renames or retires this one — though when it does,
+ *  the 404 names the replacement and `narrateWithGemini` follows it. */
+const DEFAULT_GEMINI_MODEL = 'gemini-3.6-flash';
 
 interface GeminiResponse {
   candidates?: {
@@ -215,32 +230,53 @@ async function narrateWithGemini(system: string, userBrief: string): Promise<str
     },
   });
 
-  const send = (withThinkingOff: boolean) =>
-    fetch(`${GEMINI_HOST}/${encodeURIComponent(model)}:generateContent`, {
+  const send = (target: string, withThinkingOff: boolean) =>
+    fetch(`${GEMINI_HOST}/${encodeURIComponent(target)}:generateContent`, {
       method: 'POST',
       headers: { 'content-type': 'application/json', 'x-goog-api-key': key },
       body: JSON.stringify(body(withThinkingOff)),
     });
 
-  let response = await send(true);
+  let used = model;
+  let response = await send(used, true);
   let data = (await response.json()) as GeminiResponse;
 
   // A model that does not accept thinkingConfig rejects the whole request.
   // Retry once without it — but only for that, not for a bad key, which is
   // also a 400.
   if (!response.ok && /thinking/i.test(data.error?.message ?? '')) {
-    response = await send(false);
+    response = await send(used, false);
     data = (await response.json()) as GeminiResponse;
+  }
+
+  // Google retires models, and says so in the 404: "This model models/X is no
+  // longer available to new users. Please update your code to use models/Y".
+  // Follow the pointer once rather than leaving every round on the template.
+  if (!response.ok) {
+    const replacement = /use\s+models\/([\w.-]+)/i.exec(data.error?.message ?? '')?.[1];
+    if (replacement && replacement !== used) {
+      console.error(
+        `narration: ${used} is retired; Google points at ${replacement}. ` +
+          `Using it for now — set GEMINI_MODEL=${replacement} to make it permanent.`,
+      );
+      used = replacement;
+      response = await send(used, true);
+      data = (await response.json()) as GeminiResponse;
+      if (!response.ok && /thinking/i.test(data.error?.message ?? '')) {
+        response = await send(used, false);
+        data = (await response.json()) as GeminiResponse;
+      }
+    }
   }
 
   if (!response.ok) {
     const message = data.error?.message ?? 'unknown error';
-    console.error(`narration: Gemini ${response.status} (${model}): ${message}`);
+    console.error(`narration: Gemini ${response.status} (${used}): ${message}`);
     if (/API key not valid|API_KEY_INVALID/i.test(message)) {
       console.error('narration: check GEMINI_API_KEY in .env.local');
     } else if (response.status === 404 || /not found|not supported/i.test(message)) {
       console.error(
-        `narration: "${model}" is not available to this key. Set GEMINI_MODEL to one listed by ` +
+        `narration: "${used}" is not available to this key. Set GEMINI_MODEL to one listed by ` +
           'https://generativelanguage.googleapis.com/v1beta/models?key=YOUR_KEY',
       );
     }
@@ -257,10 +293,7 @@ async function narrateWithGemini(system: string, userBrief: string): Promise<str
     return null;
   }
 
-  const text = (candidate?.content?.parts ?? [])
-    .map((part) => part.text ?? '')
-    .join('')
-    .trim();
+  const text = cleanStory((candidate?.content?.parts ?? []).map((part) => part.text ?? '').join(''));
   return text || null;
 }
 
@@ -282,11 +315,12 @@ async function narrateWithClaude(system: string, userBrief: string): Promise<str
     if (response.stop_reason === 'refusal') return null;
 
     return (
-      response.content
-        .filter((b): b is Extract<typeof b, { type: 'text' }> => b.type === 'text')
-        .map((b) => b.text)
-        .join('\n')
-        .trim() || null
+      cleanStory(
+        response.content
+          .filter((b): b is Extract<typeof b, { type: 'text' }> => b.type === 'text')
+          .map((b) => b.text)
+          .join('\n'),
+      ) || null
     );
   } catch (error) {
     const Sdk = (await import('@anthropic-ai/sdk')).default;

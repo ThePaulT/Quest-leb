@@ -118,8 +118,10 @@ rather than on luck — every run in it is seeded.
 `rules.ai_role`: *"Narrates the result it is given. Never decides outcomes."*
 
 The narrator is whichever key is present: `GEMINI_API_KEY` (default,
-`gemini-2.5-flash`, free tier), else `ANTHROPIC_API_KEY` (`claude-opus-5`),
-else the local template. Swapping one for the other changes only the prose —
+`gemini-3.6-flash`, free tier), else `ANTHROPIC_API_KEY` (`claude-opus-5`),
+else the local template. Google retires Flash models fairly quickly and the
+404 names the replacement, so the Gemini path follows that pointer once and
+logs the `GEMINI_MODEL=` line to make it permanent. Swapping one for the other changes only the prose —
 the fight is already over by then.
 
 `/api/narrate` is called **after** the engine has resolved a round. It receives
@@ -128,7 +130,9 @@ upset and which side pulled it — and writes 3–4 sentences. Nothing it return
 is fed back into the engine, and the system prompt forbids it from contradicting,
 hedging or reversing the result. Every failure — bad key, quota exhausted,
 safety block, empty answer — falls through to the local template, so a round
-always gets a story. The server log names the cause.
+always gets a story. The server log names the cause. Model output is run
+through `cleanStory` first: they reach for markdown emphasis however plainly
+the prompt forbids it, and the UI prints the story as plain text.
 
 ## Sharing
 
