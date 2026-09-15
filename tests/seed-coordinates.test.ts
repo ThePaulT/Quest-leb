@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { questSeeds } from '@/supabase/seed/quests';
+import { UNVERIFIED_MARKER, questSeeds } from '@/supabase/seed/quests';
 
 /**
  * The seed coordinates have NOT been checked against OpenStreetMap — the
@@ -43,10 +43,26 @@ describe('quest seeds', () => {
     expect(quest.proofHintAr.trim()).not.toBe('');
   });
 
-  it('leaves story and safety notes as stubs, so nothing can be activated yet', () => {
+  it.each(questSeeds)('$slug has a story in both languages', (quest) => {
+    const words = (quest.storyEn ?? '').trim().split(/\s+/).filter(Boolean).length;
+    expect(words).toBeGreaterThanOrEqual(80);
+    expect(words).toBeLessThanOrEqual(120);
+    // A translation, not a transliteration: the Arabic must be Arabic script.
+    expect(quest.storyAr).toMatch(/[\u0600-\u06FF]/);
+  });
+
+  it.each(questSeeds)('$slug safety notes still carry the UNVERIFIED marker', (quest) => {
+    // The marker is the whole point: it must survive until a human has checked
+    // the terrain, the access road and the opening hours on the ground.
+    expect(quest.safetyNotesEn).not.toBeNull();
+    expect(quest.safetyNotesEn?.startsWith(UNVERIFIED_MARKER)).toBe(true);
+  });
+
+  it('leaves Arabic safety notes empty, which keeps the activation gate shut', () => {
+    // quests_safety_notes_required_when_active needs BOTH languages, so no
+    // quest can be activated while these are null — correct while the English
+    // notes are themselves unverified.
     for (const quest of questSeeds) {
-      expect(quest.storyEn).toBeNull();
-      expect(quest.safetyNotesEn).toBeNull();
       expect(quest.safetyNotesAr).toBeNull();
     }
   });

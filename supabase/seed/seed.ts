@@ -4,6 +4,15 @@
  * Idempotent: upserts on slug, so correcting a coordinate is a one-line edit to
  * quests.ts followed by `npm run seed`. Nothing is ever deleted.
  *
+ * The upsert DOES overwrite story and safety notes, because this file is the
+ * source of truth for them today. Once quests are edited anywhere else — an
+ * admin screen, the dashboard — that stops being true and those four columns
+ * must come out of the DO UPDATE list, or a re-seed will silently revert
+ * someone's edits.
+ *
+ * It never writes is_active. Activation is a deliberate human step, and the
+ * safety-notes constraint blocks it until the notes exist in both languages.
+ *
  * Every quest seeds with is_active = false. It cannot be otherwise — the
  * safety-notes check constraint rejects an active quest without bilingual
  * safety notes, and those are TODO stubs. That constraint doubles as the gate
@@ -39,6 +48,10 @@ async function main() {
             title_ar = excluded.title_ar,
             summary_en = excluded.summary_en,
             summary_ar = excluded.summary_ar,
+            story_en = excluded.story_en,
+            story_ar = excluded.story_ar,
+            safety_notes_en = excluded.safety_notes_en,
+            safety_notes_ar = excluded.safety_notes_ar,
             region = excluded.region,
             category = excluded.category,
             difficulty = excluded.difficulty,

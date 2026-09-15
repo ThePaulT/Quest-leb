@@ -188,8 +188,35 @@ geography, not an error: Bsharri sits between them at a similar latitude, one
 1.3km SW down in the gorge and the other 3.6km E uphill.
 
 Nothing can reach the public map regardless: every seeded quest is
-`is_active = false`, and the safety-notes constraint blocks activation until a
-human writes them — confirming the pin belongs in that same pass.
+`is_active = false`. `safety_notes_ar` is deliberately still null on all ten,
+and the safety-notes constraint needs BOTH languages, so the activation gate
+stays shut on its own — which is right while the English notes are unverified.
+
+`content/quests-review.csv` (regenerate with `npm run content:review`) lists
+every pin with a Google Maps link, for checking positions against satellite
+imagery.
+
+## Quest content is a draft
+
+All ten quests now carry `story_en`, `story_ar` and proof hints, so the app is
+not empty. None of it has been fact-checked:
+
+- **Stories carry dates, names and figures that were written without a source
+  to check them against.** Treat every number as a claim to verify. They were
+  briefed to be things a Lebanese person would not already know, which is
+  exactly the material most likely to be wrong.
+- **`safety_notes_en` begins with `[UNVERIFIED — PAUL TO CONFIRM]` on every
+  quest.** Do not strip that marker; it is what stops draft terrain, road and
+  opening-hours guidance from being mistaken for checked guidance. A test
+  asserts it is still there.
+- **Geofence radii are sized to each site's footprint** — 180m for the Sidon
+  islet, 600m for the Tyre hippodrome whose track alone is ~480m, 1500m for the
+  Qadisha valley floor. They are judgement calls, not survey.
+
+`npm run seed` overwrites story and safety notes from the seed file, because
+that file is their source of truth today. The moment quests become editable
+anywhere else, drop those four columns from the upsert in
+`supabase/seed/seed.ts` or a re-seed will silently revert someone's edits.
 
 Correcting one is a one-line edit to `quests.ts` followed by `npm run seed` —
 the seed upserts on slug. `tests/seed-coordinates.test.ts` holds the cheap

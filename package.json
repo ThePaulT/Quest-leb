@@ -15,7 +15,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "seed": "node --experimental-strip-types --import ./scripts/register-aliases.mjs supabase/seed/seed.ts",
-    "verify:r2": "node --env-file-if-exists=.env.local --experimental-strip-types --import ./scripts/register-aliases.mjs scripts/verify-r2.ts"
+    "verify:r2": "node --env-file-if-exists=.env.local --experimental-strip-types --import ./scripts/register-aliases.mjs scripts/verify-r2.ts",
+    "content:review": "node --experimental-strip-types --import ./scripts/register-aliases.mjs scripts/quests-review-csv.ts"
   },
   "dependencies": {
     "aws4fetch": "^1.0.20",
