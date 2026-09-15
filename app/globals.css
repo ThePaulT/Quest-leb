@@ -1,6 +1,13 @@
 @import "tailwindcss";
 
 /*
+ * Imported here, not from the map component: a component-level import is
+ * bundled AFTER this file, so MapLibre's own rules would win the cascade and
+ * every control override at the bottom of this file would silently do nothing.
+ */
+@import "maplibre-gl/dist/maplibre-gl.css";
+
+/*
  * Lebanon Quest design tokens. See the Design section of CLAUDE.md.
  *
  * Six colours, no more. If a screen seems to need a seventh, it needs less
@@ -73,4 +80,88 @@ body {
  */
 [lang="ar"] .font-display {
   line-height: 1.45;
+}
+
+/*
+ * MapLibre's default controls ship as white rounded panels with a drop shadow —
+ * every one of those is on the banned list. Restyle them into the system rather
+ * than hiding them: the zoom control is useful and the OSM attribution is a
+ * licence requirement, not a decoration.
+ */
+.maplibregl-ctrl-group {
+  background-color: var(--color-base);
+  border: 1px solid var(--color-sand);
+  border-radius: 2px;
+  box-shadow: none;
+}
+
+.maplibregl-ctrl-group button {
+  background-color: var(--color-base);
+  border-radius: 0;
+  width: 30px;
+  height: 30px;
+}
+
+.maplibregl-ctrl-group button + button {
+  border-top: 1px solid var(--color-sand);
+}
+
+.maplibregl-ctrl-group button:hover,
+.maplibregl-ctrl-group button:focus {
+  background-color: var(--color-sand);
+  box-shadow: none;
+}
+
+.maplibregl-ctrl-group button .maplibregl-ctrl-icon {
+  filter: none;
+}
+
+.maplibregl-ctrl-attrib,
+.maplibregl-ctrl-attrib.maplibregl-compact {
+  background-color: var(--color-base);
+  border: 1px solid var(--color-sand);
+  border-radius: 2px;
+  box-shadow: none;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 10px;
+}
+
+.maplibregl-ctrl-attrib a {
+  color: var(--color-sea);
+}
+
+.maplibregl-ctrl-attrib-button {
+  border-radius: 2px;
+  background-color: var(--color-base);
+}
+
+.maplibregl-ctrl-attrib-button:focus,
+.maplibregl-ctrl-attrib-button:hover {
+  box-shadow: none;
+}
+
+/*
+ * MapLibre guards this one with :not(:empty), which outranks a bare class
+ * selector — matching the specificity is the only way to drop the shadow.
+ */
+.maplibregl-ctrl-group:not(:empty) {
+  box-shadow: none;
+}
+
+.maplibregl-ctrl,
+.maplibregl-ctrl-attrib-button:focus,
+.maplibregl-ctrl-group button:focus:not(:focus-visible) {
+  box-shadow: none;
+}
+
+.maplibregl-ctrl-attrib summary,
+.maplibregl-ctrl-attrib-inner,
+.maplibregl-ctrl-attrib-inner a {
+  color: var(--color-ink);
+}
+
+/* Guarded by a compound selector in MapLibre; match it to keep the palette. */
+.maplibregl-ctrl-attrib.maplibregl-compact-show .maplibregl-ctrl-attrib-button {
+  background-color: var(--color-sand);
 }

@@ -1,69 +1,80 @@
-import Image from "next/image";
+import { QuestMap } from '@/components/QuestMap';
+import { listQuests } from '@/lib/quests';
+import type { QuestSummary } from '@/lib/types';
 
-export default function Home() {
+/**
+ * The map.
+ *
+ * Quests are data: this reads them from the database rather than importing the
+ * seed file, so adding a quest stays an insert. Outside production the page
+ * also loads inactive quests, because all ten seeds are is_active = false until
+ * someone writes their safety notes — the toggle lives in the map UI.
+ */
+export const dynamic = 'force-dynamic';
+
+export default async function MapPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ lang?: string }>;
+}) {
+  const { lang } = await searchParams;
+  const locale = lang === 'ar' ? 'ar' : 'en';
+  // Server-side only, and deliberately not NEXT_PUBLIC_: the decision is made
+  // here and handed to the client as a prop, so the browser never needs the
+  // variable and it is read at runtime rather than inlined at build time.
+  // The toggle is off in production by default. The opt-in exists because all
+  // ten seeded quests are inactive until someone writes their safety notes —
+  // without it a preview deploy shows an empty map and cannot be demoed at all.
+  // It only ever reveals is_active = false quests; it grants nothing else.
+  const showInactiveTools =
+    process.env.NODE_ENV !== 'production' ||
+    process.env.ENABLE_INACTIVE_TOGGLE === '1';
+
+  let quests: QuestSummary[] = [];
+  let error: string | null = null;
+
+  try {
+    quests = await listQuests({ includeInactive: showInactiveTools });
+  } catch (cause) {
+    // A missing database should read as a setup problem, not a stack trace.
+    error = cause instanceof Error ? cause.message : String(cause);
+  }
+
+  if (error) {
+    return <SetupNotice message={error} />;
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <QuestMap
+      quests={quests}
+      locale={locale}
+      allowInactiveToggle={showInactiveTools}
+      inactiveIncluded={showInactiveTools}
+    />
+  );
+}
+
+function SetupNotice({ message }: { message: string }) {
+  return (
+    <main className="flex min-h-dvh items-center justify-center bg-base px-6">
+      <div className="max-w-[52ch] border border-sand bg-base px-5 py-5">
+        <p className="font-body text-[11px] font-medium uppercase tracking-[0.16em] text-accent">
+          Setup
+        </p>
+        <h1 className="font-display mt-1.5 text-[28px] leading-[1.15] text-ink">
+          No database
+        </h1>
+        <hr className="mt-3.5 border-0 border-t border-sand" />
+        <p className="font-body mt-3 text-[14px] leading-[1.65] text-ink">
+          The map reads quests from Postgres. Start one and seed it:
+        </p>
+        <pre className="font-body mt-3 overflow-x-auto border border-sand px-3 py-2.5 text-[12px] leading-[1.7] text-ink">
+{`npm run db:local      # prints DATABASE_URL
+export DATABASE_URL=…
+npm run seed`}
+        </pre>
+        <p className="font-body mt-3 text-[12px] leading-[1.6] text-sea">{message}</p>
+      </div>
+    </main>
   );
 }

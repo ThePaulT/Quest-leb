@@ -74,3 +74,21 @@ export interface Badge {
   ruleType: BadgeRuleType;
   ruleValue: Record<string, unknown>;
 }
+
+/**
+ * The subset of a quest the card renders. Both the seed file and a database row
+ * map onto this, so the card does not care which it came from.
+ */
+export interface QuestSummary {
+  slug: string;
+  titleEn: string;
+  titleAr: string;
+  region: QuestRegion;
+  category?: QuestCategory;
+  difficulty: number;
+  estDurationMin?: number;
+  isActive?: boolean;
+  /** Present only for quests read from the database. */
+  lat?: number;
+  lng?: number;
+}
