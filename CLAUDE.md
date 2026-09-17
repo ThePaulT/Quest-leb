@@ -69,6 +69,10 @@ uploads a real WebP through `lib/storage.ts`, fetches it back over the public
 URL, asserts byte equality, then deletes it. It needs the five `R2_*` variables
 and cannot run in a sandbox whose egress policy blocks Cloudflare.
 
+**The R2 path is verified.** Paul ran it on macOS against the real bucket and
+all nine checks passed — upload, public read, byte-for-byte comparison and
+delete. Storage is not an open risk.
+
 `npm run db:local` is a Docker-less fallback used in agent/CI sandboxes: it
 applies `supabase/migrations/` to a throwaway PostGIS cluster on top of the
 shim in `supabase/dev/`, which fakes the api roles, `auth.users` and
@@ -150,6 +154,27 @@ Palace were moved to `photo_at_location`. The module stays registered in
 `tests/seed-coordinates.test.ts` fails if a seed quest ever references a stubbed
 proof type again. *Reverse:* set `proofType` back once real QR codes exist on
 site and the validator is implemented.
+
+**The geofence inset draws its circle as an SVG overlay, not a MapLibre
+GeoJSON layer.** MapLibre parses GeoJSON in a web worker, and that worker does
+not come up under Turbopack: the source never reaches "loaded", so the circle
+never painted — verified with the layers present, the camera correct and
+`queryRenderedFeatures` returning nothing. The inset is non-interactive, so the
+scale is fixed and the circle's pixel radius is exact arithmetic
+(`zoomForRadius` in `components/GeofenceInset.tsx`). *Consequence:* do not add
+GeoJSON sources anywhere else expecting them to render until that worker is
+sorted out.
+
+**Safety notes fall back to English when Arabic is missing**, under a labelled
+notice. An Arabic reader with no safety section at all is worse off than one
+reading English notes they can see are untranslated. `safety_notes_ar` is null
+on all ten quests today, so this fallback is what Arabic readers actually get.
+
+**Sign-in is magic-link only, and there is a dev-only token route.**
+`POST /api/dev-sign-in` mints a session token so the submission flow can be
+exercised against the Docker-less shim, which has no GoTrue at all. It is
+guarded twice — `NODE_ENV !== 'production'` AND `ALLOW_DEV_SIGN_IN=1` — and
+404s otherwise. Verified refused under `next start` even with the flag set.
 
 **No public read path on `profiles` yet.** A feed showing display names will
 need a view exposing only `display_name`/`avatar_url`. Deferred until a feed

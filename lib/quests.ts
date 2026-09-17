@@ -78,3 +78,77 @@ export async function listQuests(
     lng: Number(row.lng),
   }));
 }
+
+export interface QuestDetail extends QuestSummary {
+  id: string;
+  summaryEn: string;
+  summaryAr: string;
+  storyEn: string | null;
+  storyAr: string | null;
+  proofHintEn: string | null;
+  proofHintAr: string | null;
+  safetyNotesEn: string | null;
+  safetyNotesAr: string | null;
+  proofType: Quest['proofType'];
+  geofenceRadiusM: number;
+  lat: number;
+  lng: number;
+}
+
+interface QuestDetailRow extends QuestPinRow {
+  summary_en: string;
+  summary_ar: string;
+  story_en: string | null;
+  story_ar: string | null;
+  proof_hint_en: string | null;
+  proof_hint_ar: string | null;
+  safety_notes_en: string | null;
+  safety_notes_ar: string | null;
+}
+
+/**
+ * One quest, everything the detail page renders.
+ *
+ * Returns inactive quests too. The page decides what to do with them: outside
+ * production it shows them behind a notice so content can be reviewed before
+ * activation, which is the whole reason all ten ship inactive.
+ */
+export async function getQuestBySlug(slug: string): Promise<QuestDetail | null> {
+  const row = await queryOne<QuestDetailRow>(
+    `select id, slug, title_en, title_ar, summary_en, summary_ar,
+            story_en, story_ar, proof_hint_en, proof_hint_ar,
+            safety_notes_en, safety_notes_ar,
+            region, category, difficulty, geofence_radius_m, proof_type,
+            is_active, est_duration_min,
+            extensions.st_y(location::extensions.geometry) as lat,
+            extensions.st_x(location::extensions.geometry) as lng
+       from public.quests
+      where slug = $1`,
+    [slug],
+  );
+  if (!row) return null;
+
+  return {
+    id: row.id,
+    slug: row.slug,
+    titleEn: row.title_en,
+    titleAr: row.title_ar,
+    summaryEn: row.summary_en,
+    summaryAr: row.summary_ar,
+    storyEn: row.story_en,
+    storyAr: row.story_ar,
+    proofHintEn: row.proof_hint_en,
+    proofHintAr: row.proof_hint_ar,
+    safetyNotesEn: row.safety_notes_en,
+    safetyNotesAr: row.safety_notes_ar,
+    region: row.region,
+    category: row.category,
+    difficulty: row.difficulty,
+    geofenceRadiusM: row.geofence_radius_m,
+    proofType: row.proof_type,
+    isActive: row.is_active,
+    estDurationMin: row.est_duration_min ?? undefined,
+    lat: Number(row.lat),
+    lng: Number(row.lng),
+  };
+}

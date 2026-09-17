@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 
+import { CompletionStamp } from '@/components/CompletionStamp';
 import { QuestCard } from '@/components/QuestCard';
 import type { QuestSummary } from '@/lib/types';
 
@@ -88,6 +89,35 @@ export default function TestCardPage() {
           ))}
         </Panel>
       </main>
+
+      {/*
+        The completion stamp only appears after a real submission, so it is
+        previewed here — otherwise the one piece of the design with texture in
+        it could never be reviewed without completing a quest.
+      */}
+      <section className="mx-auto mt-14 max-w-[1100px]">
+        <h2 className="font-body mb-4 text-[11px] font-medium uppercase tracking-[0.16em] text-ink">
+          Completion stamp
+        </h2>
+        <div className="grid gap-8 sm:grid-cols-2">
+          <div>
+            <p className="font-body mb-2 text-[11px] uppercase tracking-[0.14em] text-sea">
+              Verified — EN
+            </p>
+            <CompletionStamp photoUrl="/placeholder/tile-sea.svg" locale="en" status="verified" />
+          </div>
+          <div dir="rtl" lang="ar">
+            <p className="font-body mb-2 text-[11px] uppercase tracking-[0.14em] text-sea">
+              قيد المراجعة — AR
+            </p>
+            <CompletionStamp
+              photoUrl="/placeholder/tile-terracotta.svg"
+              locale="ar"
+              status="flagged"
+            />
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
