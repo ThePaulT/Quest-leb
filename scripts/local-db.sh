@@ -76,7 +76,12 @@ if [[ "${1:-}" == "--reset" ]]; then
   rm -rf "$PGDATA"
 fi
 
-if [[ ! -d "$PGDATA" ]]; then
+# Test for a real cluster, not just a directory. The root branch above creates
+# PGDATA (empty) so it can be chowned to postgres, and an interrupted run can
+# leave it empty too — either way a bare -d test skips initdb and every later
+# start dies with "is not a database cluster directory".
+if [[ ! -s "$PGDATA/PG_VERSION" ]]; then
+  rm -rf "${PGDATA:?}/"* "${PGDATA:?}/".* 2>/dev/null || true
   "$PGBIN/initdb" -D "$PGDATA" -U postgres --auth=trust >/dev/null
 fi
 

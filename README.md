@@ -13,6 +13,21 @@ PostGIS + Auth) · Cloudflare R2 · MapLibre GL JS + OpenStreetMap · Vercel Hob
 
 Everything runs on free tiers.
 
+## Claude Code on the web
+
+`.claude/hooks/session-start.sh` runs on every session start in a remote
+container and leaves a working app behind: dependencies installed, PostGIS
+running with the migrations applied, the ten quests seeded, and `next dev`
+serving on http://localhost:3000. Each step checks before it acts, so it never
+recreates a healthy database or starts a second server, and it writes the
+`.env.local` a fresh container lacks.
+
+It exits immediately when `CLAUDE_CODE_REMOTE` is not set, so on a laptop
+nothing is taken over — follow "Getting started" below instead.
+
+Note that `npm test` truncates every table, so run `npm run seed` afterwards to
+put the ten quests back.
+
 ## Getting started
 
 ```bash
